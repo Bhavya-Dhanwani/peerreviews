@@ -17,7 +17,7 @@ export const createTask = async (req) => {
 
 	if (!title) {
 		return NextResponse.json(
-			{ success: false, message: "Title is required" },
+			{ message: "Title is required" },
 			{ status: 400 },
 		);
 	}
@@ -32,10 +32,23 @@ export const createTask = async (req) => {
 
 	return NextResponse.json(
 		{
-			success: true,
 			message: "Task created successfully",
 			data: newTask,
 		},
 		{ status: 201 },
 	);
+};
+
+export const getSingleTask = async (req, { params }) => {
+	const { id } = params;
+	const task = await Task.findById(id);
+
+	if (!task) {
+		return NextResponse.json({ message: "Task not found" }, { status: 404 });
+	}
+
+	return NextResponse.json({
+		message: "Task fetched successfully",
+		data: task,
+	});
 };
