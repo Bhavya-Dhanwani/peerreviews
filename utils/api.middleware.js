@@ -1,4 +1,4 @@
-import connectDB from "@/utils/db";
+import connectDB from "@/config/db.config";
 import { createSuccessResponse } from "@/utils/api.util";
 import wrapAsync from "@/utils/wrapAsync.util";
 

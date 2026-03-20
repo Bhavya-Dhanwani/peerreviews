@@ -1,7 +1,7 @@
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 import jwt from "jsonwebtoken";
-import connectDB from "@/utils/db";
+import connectDB from "@/config/db.config";
 import User from "@/models/userModel";
 import { getPublicUser } from "@/utils/auth.util";
 import { getEpochDate, getFutureDate } from "@/utils/date.util";

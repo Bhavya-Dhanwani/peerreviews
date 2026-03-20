@@ -1,5 +1,5 @@
 import { cookies } from "next/headers";
-import connectDB from "@/utils/db";
+import connectDB from "@/config/db.config";
 import PendingVerification from "@/models/pendingVerificationModel";
 import User from "@/models/userModel";
 import { createOpaqueToken } from "@/utils/crypto.util";

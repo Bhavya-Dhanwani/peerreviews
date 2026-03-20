@@ -426,10 +426,10 @@ export async function resetPasswordController(payload) {
   };
 }
 
-export async function getSessionController(session) {
+export async function getSessionController(user) {
   return {
     data: {
-      user: session.user,
+      user,
     },
   };
 }
