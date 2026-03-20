@@ -1,19 +1,28 @@
 import Submission from "@/models/submission.model";
 import ExpressError from "@/utils/ExpressError.util";
+import decodeJWT from "@/utils/decodeJWT.util";
+import Task from "@/models/task.model";
 
 // Create a new submission
 export async function createSubmission(req) {
+
+    const currentUser = await decodeJWT();
+
+  if (!currentUser) {
+    throw new ExpressError("Unauthorized. Please log in to submit a task.", 401);
+  }
+    
   const body = await req.json();
-  const { taskId, userId, projectLink, previewImages, notes } = body;
+  const { taskId, projectLink, previewImages, notes } = body;
 
   // Basic validation
-  if (!taskId || !userId || !projectLink) {
+  if (!taskId || !projectLink) {
     throw new ExpressError("Task ID, User ID, and Project Link are required.", 400);
   }
 
   const newSubmission = await Submission.create({
     taskId,
-    userId,
+    userId: currentUser.id,
     projectLink,
     previewImages: previewImages || [], 
     notes,
@@ -49,10 +58,12 @@ export async function getAllSubmissions(req) {
 export async function getSingleSubmission(req, { params }) {
   const { id } = await params;
   
+  
   const submission = await Submission.findById(id)
     .populate("userId", "name avatar")
     .populate("taskId", "title");
 
+    
   if (!submission) {
     throw new ExpressError("Submission not found.", 404);
   }
