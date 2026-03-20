@@ -35,22 +35,19 @@ const submissionSchema = mongoose.Schema(
             type: String,
             required: [true, "Project link is required"],
         },
+        tags: {
+            type: [String],
+            default: [],
+        },
         previewImages: {
             type: [String], 
             validate: [arrayLimit, '{PATH} exceeds the limit of 2'],
         },
-        notes: {
-            type: String,
-        },
-        likes: {
-            type: Number,
-            default: 0,
-        },
+        notes: { type: String },
+        likes: { type: Number, default: 0 },
         reviews: [reviewSchema],
     },
-    {
-        timestamps: true,
-    }
+    { timestamps: true }
 );
 
 const Submission = mongoose.models.Submission || mongoose.model("Submission", submissionSchema);
