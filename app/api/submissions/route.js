@@ -11,6 +11,6 @@ export const GET = apiHandler(getAllSubmissions);
 /**
  * @route POST /api/submissions
  * @description Create a new submission
- * @access Public
+ * @access Private
  */
 export const POST = apiHandler(createSubmission);

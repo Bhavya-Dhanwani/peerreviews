@@ -35,6 +35,10 @@ const submissionSchema = mongoose.Schema(
             type: String,
             required: [true, "Project link is required"],
         },
+        repoLink: {
+            type: String,
+            required: [true, "Repository link is required"],
+        },
         tags: {
             type: [String],
             default: [],
@@ -43,8 +47,11 @@ const submissionSchema = mongoose.Schema(
             type: [String], 
             validate: [arrayLimit, '{PATH} exceeds the limit of 2'],
         },
-        notes: { type: String },
-        likes: { type: Number, default: 0 },
+        message: { type: String },
+        likedBy: [{
+            type: mongoose.Schema.Types.ObjectId,
+            ref: "User",
+        }],
         reviews: [reviewSchema],
     },
     { timestamps: true }
