@@ -9,8 +9,6 @@ export const metadata = {
   description: "Verify your email with the one-time password sent to you.",
 };
 
-const OTP_RESEND_COOLDOWN_MS = 1000 * 60;
-
 export default async function VerifyOtpPage() {
   const session = await getCurrentSession();
   const pendingVerification = await getCurrentPendingVerification();
@@ -26,10 +24,6 @@ export default async function VerifyOtpPage() {
   const lastSentAtMs = pendingVerification.lastSentAt
     ? new Date(pendingVerification.lastSentAt).getTime()
     : 0;
-  const initialCooldownSeconds = Math.max(
-    Math.ceil((lastSentAtMs + OTP_RESEND_COOLDOWN_MS - Date.now()) / 1000),
-    0
-  );
 
   return (
     <AuthShell
@@ -39,7 +33,7 @@ export default async function VerifyOtpPage() {
     >
       <VerifyOtpForm
         email={pendingVerification.user.email}
-        initialCooldownSeconds={initialCooldownSeconds}
+        initialLastSentAtMs={lastSentAtMs}
       />
     </AuthShell>
   );

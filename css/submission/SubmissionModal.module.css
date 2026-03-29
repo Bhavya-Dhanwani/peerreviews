@@ -1,0 +1,553 @@
+.backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 80;
+  display: grid;
+  place-items: center;
+  padding: 1rem;
+  background: rgba(0, 0, 0, 0.72);
+  backdrop-filter: blur(12px);
+}
+
+.modal {
+  width: min(100%, 74rem);
+  max-height: 90vh;
+  overflow: auto;
+  padding: 1.65rem;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 1.9rem;
+  background:
+    radial-gradient(circle at top right, rgba(221, 106, 53, 0.12), transparent 26%),
+    linear-gradient(180deg, rgba(255, 255, 255, 0.03), rgba(255, 255, 255, 0.015));
+  box-shadow: 0 2rem 4rem rgba(0, 0, 0, 0.36);
+}
+
+.header,
+.links,
+.sectionHeader,
+.starHeader,
+.commentMeta,
+.reviewHeaderBar,
+.fieldHeader,
+.headerChips {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.9rem;
+}
+
+.eyebrow {
+  display: inline-flex;
+  margin-bottom: 0.7rem;
+  color: #f06f3d;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+
+.title,
+.composeTitle {
+  color: #fff4ec;
+  font-family: neue;
+}
+
+.title {
+  font-size: clamp(1.7rem, 2vw, 2.2rem);
+}
+
+.subtitle,
+.sectionCopy {
+  max-width: 42rem;
+  margin-top: 0.4rem;
+  color: rgba(255, 244, 236, 0.68);
+  line-height: 1.6;
+}
+
+.closeButton,
+.submitButton {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 3rem;
+  padding: 0.9rem 1.15rem;
+  border: 0;
+  border-radius: 1rem;
+  background: rgba(255, 255, 255, 0.06);
+  color: rgba(255, 244, 236, 0.9);
+  font: inherit;
+  cursor: pointer;
+  overflow: hidden;
+}
+
+.submitButton {
+  background: linear-gradient(135deg, #dd6a35, #b24420);
+  color: #fff;
+}
+
+.submitButton:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.buttonLabel,
+.closeButton::after,
+.submitButton::after {
+  transition: transform 0.28s ease, opacity 0.28s ease;
+}
+
+.closeButton::after,
+.submitButton::after {
+  content: attr(data-text);
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transform: translateY(135%);
+  opacity: 0;
+}
+
+.closeButton:hover .buttonLabel,
+.submitButton:hover .buttonLabel {
+  transform: translateY(-135%);
+  opacity: 0;
+}
+
+.closeButton:hover::after,
+.submitButton:hover::after {
+  transform: translateY(0);
+  opacity: 1;
+}
+
+.links {
+  flex-wrap: wrap;
+  justify-content: flex-start;
+  margin-top: 1.2rem;
+}
+
+.resourceLink,
+.likeButton,
+.likeButtonActive,
+.switchButton,
+.switchButtonActive {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.55rem;
+  min-height: 3rem;
+  padding: 0.85rem 1rem;
+  border-radius: 1rem;
+  text-decoration: none;
+  font: inherit;
+}
+
+.resourceLink,
+.likeButton,
+.likeButtonActive {
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: rgba(255, 255, 255, 0.045);
+  color: rgba(255, 244, 236, 0.92);
+}
+
+.likeButton,
+.likeButtonActive,
+.switchButton,
+.switchButtonActive {
+  cursor: pointer;
+}
+
+.likeButtonActive {
+  border-color: rgba(246, 196, 83, 0.4);
+  background: rgba(246, 196, 83, 0.12);
+  color: #ffd26d;
+}
+
+.thumbIcon {
+  width: 1.15rem;
+  height: 1.15rem;
+  flex: 0 0 auto;
+}
+
+.previewRow {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0.9rem;
+  margin-top: 1.25rem;
+}
+
+.previewItem {
+  position: relative;
+  min-height: 11rem;
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 1.2rem;
+}
+
+.panelSwitch {
+  display: inline-flex;
+  gap: 0.5rem;
+  margin-top: 1.35rem;
+  padding: 0.35rem;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.035);
+}
+
+.switchButton,
+.switchButtonActive {
+  min-height: 2.55rem;
+  padding-inline: 1rem;
+  border: 0;
+  color: rgba(255, 244, 236, 0.72);
+  background: transparent;
+}
+
+.switchButtonActive {
+  background: linear-gradient(135deg, rgba(221, 106, 53, 0.26), rgba(178, 68, 32, 0.42));
+  color: #fff4ec;
+}
+
+.sectionHeader {
+  margin-top: 1.4rem;
+  align-items: flex-end;
+}
+
+.headerChips {
+  justify-content: flex-end;
+  flex-wrap: wrap;
+}
+
+.countChip,
+.projectScoreChip,
+.reviewSummaryChip,
+.averageChip,
+.wordCount,
+.wordCountDanger {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 2.2rem;
+  padding: 0.4rem 0.8rem;
+  border-radius: 999px;
+  white-space: nowrap;
+}
+
+.countChip {
+  flex-shrink: 0;
+  min-height: 2.6rem;
+  padding: 0.55rem 0.9rem;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: rgba(255, 255, 255, 0.05);
+  color: rgba(255, 244, 236, 0.88);
+}
+
+.projectScoreChip {
+  flex-shrink: 0;
+  min-height: 2.6rem;
+  padding: 0.55rem 0.9rem;
+  border: 1px solid rgba(246, 196, 83, 0.24);
+  background: rgba(246, 196, 83, 0.1);
+  color: #ffd26d;
+}
+
+.reviewSummaryChip,
+.averageChip {
+  border: 1px solid rgba(246, 196, 83, 0.22);
+  background: rgba(246, 196, 83, 0.1);
+  color: #ffd26d;
+}
+
+.averageChip {
+  border-color: rgba(255, 255, 255, 0.1);
+  background: rgba(255, 255, 255, 0.04);
+  color: rgba(255, 244, 236, 0.8);
+}
+
+.wordCount {
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: rgba(255, 255, 255, 0.04);
+  color: rgba(255, 244, 236, 0.66);
+}
+
+.wordCountDanger {
+  border: 1px solid rgba(240, 90, 90, 0.28);
+  background: rgba(240, 90, 90, 0.12);
+  color: #ff9a9a;
+}
+
+.reviewList,
+.commentFeed {
+  display: grid;
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+.reviewCard,
+.reviewComposer,
+.commentComposer,
+.commentCard,
+.lockedReviews,
+.emptyComments {
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 1.25rem;
+  background: rgba(255, 255, 255, 0.035);
+}
+
+.reviewCard,
+.reviewComposer,
+.commentComposer,
+.commentCard {
+  padding: 1.15rem;
+}
+
+.lockedReviews,
+.emptyComments {
+  padding: 1rem 1.1rem;
+  color: rgba(255, 244, 236, 0.72);
+}
+
+.reviewIdentity,
+.reviewIdentityCopy,
+.reviewStatsColumn {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+}
+
+.reviewIdentityCopy,
+.reviewStatsColumn {
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.2rem;
+}
+
+.reviewAvatar,
+.commentAvatar {
+  display: grid;
+  place-items: center;
+  width: 2.8rem;
+  height: 2.8rem;
+  border-radius: 999px;
+  background: linear-gradient(135deg, #dd6a35, #b24420);
+  color: #fff;
+  font-weight: 700;
+}
+
+.reviewIdentityCopy strong,
+.criterionLabel,
+.field span,
+.copyBlock span,
+.commentMeta strong,
+.reviewSummaryItem strong {
+  color: #fff4ec;
+}
+
+.reviewIdentityCopy span,
+.commentMeta span,
+.reviewSummaryItem span {
+  color: rgba(255, 244, 236, 0.56);
+  font-size: 0.92rem;
+}
+
+.reviewSummaryList {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.75rem;
+  margin-top: 1rem;
+}
+
+.reviewSummaryItem,
+.criterionCard {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 0.95rem 1rem;
+  border: 1px solid rgba(255, 255, 255, 0.07);
+  border-radius: 1rem;
+  background: rgba(255, 255, 255, 0.02);
+}
+
+.reviewSummaryItem strong {
+  flex-shrink: 0;
+}
+
+.starsRow {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+}
+
+.scoreBadge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 3.5rem;
+  padding: 0.3rem 0.65rem;
+  border-radius: 999px;
+  background: rgba(246, 196, 83, 0.12);
+  color: #ffd26d;
+}
+
+.starOutline,
+.starFilled {
+  color: #f6c453;
+}
+
+.starOutline,
+.starFilled {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.35rem;
+  height: 2.35rem;
+  padding: 0;
+  border: 1px solid transparent;
+  border-radius: 0.85rem;
+  background: transparent;
+  cursor: pointer;
+  transition: transform 0.2s ease, border-color 0.2s ease, background 0.2s ease;
+}
+
+.starOutline:hover,
+.starFilled:hover {
+  transform: translateY(-2px);
+  border-color: rgba(246, 196, 83, 0.28);
+  background: rgba(246, 196, 83, 0.08);
+}
+
+.starIcon {
+  width: 1.55rem;
+  height: 1.55rem;
+}
+
+.reviewCopyGrid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.8rem;
+  margin-top: 1rem;
+}
+
+.copyBlock {
+  display: grid;
+  gap: 0.5rem;
+  min-height: 100%;
+  padding: 1rem;
+  border-radius: 1rem;
+  background: rgba(255, 255, 255, 0.025);
+}
+
+.copyBlock p,
+.commentBody p {
+  color: rgba(255, 244, 236, 0.74);
+  line-height: 1.65;
+}
+
+.reviewComposer,
+.commentComposer {
+  display: grid;
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+.commentCard {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  gap: 0.85rem;
+}
+
+.commentBody {
+  display: grid;
+  gap: 0.5rem;
+}
+
+.criteriaGrid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.9rem;
+}
+
+.field {
+  display: grid;
+  gap: 0.65rem;
+}
+
+.field textarea {
+  width: 100%;
+  padding: 0.95rem 1rem;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 1rem;
+  background: rgba(255, 255, 255, 0.04);
+  color: #fff4ec;
+  font: inherit;
+  resize: vertical;
+}
+
+.field textarea::placeholder {
+  color: rgba(255, 244, 236, 0.4);
+}
+
+.modal::-webkit-scrollbar {
+  width: 0.7rem;
+}
+
+.modal::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.04);
+  border-radius: 999px;
+}
+
+.modal::-webkit-scrollbar-thumb {
+  border: 2px solid transparent;
+  border-radius: 999px;
+  background: linear-gradient(180deg, rgba(246, 196, 83, 0.9), rgba(221, 106, 53, 0.9));
+  background-clip: padding-box;
+}
+
+@media screen and (max-width: 900px) {
+  .previewRow,
+  .criteriaGrid,
+  .reviewSummaryList,
+  .reviewCopyGrid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media screen and (max-width: 720px) {
+  .header,
+  .links,
+  .sectionHeader,
+  .starHeader,
+  .commentMeta,
+  .reviewHeaderBar,
+  .fieldHeader,
+  .headerChips {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .countChip,
+  .projectScoreChip,
+  .reviewSummaryChip,
+  .averageChip,
+  .wordCount,
+  .wordCountDanger {
+    align-self: flex-start;
+  }
+
+  .panelSwitch {
+    width: 100%;
+    justify-content: stretch;
+  }
+
+  .switchButton,
+  .switchButtonActive {
+    flex: 1;
+  }
+
+  .commentCard,
+  .reviewIdentity,
+  .reviewSummaryItem,
+  .criterionCard {
+    grid-template-columns: 1fr;
+  }
+}

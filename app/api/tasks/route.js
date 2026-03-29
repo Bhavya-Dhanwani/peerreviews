@@ -1,5 +1,6 @@
 import { createTask, getAllTasks } from "@/controllers/task.controller";
 import apiHandler from "@/utils/api.middleware";
+import { requireApiSession } from "@/utils/routeAuth.util";
 
 /**
  * @route GET /api/task
@@ -15,4 +16,7 @@ export const GET = apiHandler(getAllTasks);
  * @access Public
  */
 
-export const POST = apiHandler(createTask);
+export const POST = apiHandler(async (req) => {
+  await requireApiSession({ adminOnly: true });
+  return createTask(req);
+});

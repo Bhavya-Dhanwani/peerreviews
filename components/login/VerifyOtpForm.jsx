@@ -6,10 +6,12 @@ import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import styles from "@/components/ui/AuthForm.module.css";
 
-export default function VerifyOtpForm({ email = "", initialCooldownSeconds = 0 }) {
+const OTP_RESEND_COOLDOWN_MS = 1000 * 60;
+
+export default function VerifyOtpForm({ email = "", initialLastSentAtMs = 0 }) {
   const router = useRouter();
   const [resending, setResending] = useState(false);
-  const [cooldownSeconds, setCooldownSeconds] = useState(initialCooldownSeconds);
+  const [cooldownSeconds, setCooldownSeconds] = useState(0);
   const {
     register,
     handleSubmit,
@@ -20,6 +22,20 @@ export default function VerifyOtpForm({ email = "", initialCooldownSeconds = 0 }
       otp: "",
     },
   });
+
+  useEffect(() => {
+    if (!initialLastSentAtMs) {
+      setCooldownSeconds(0);
+      return;
+    }
+
+    const nextCooldownSeconds = Math.max(
+      Math.ceil((initialLastSentAtMs + OTP_RESEND_COOLDOWN_MS - Date.now()) / 1000),
+      0
+    );
+
+    setCooldownSeconds(nextCooldownSeconds);
+  }, [initialLastSentAtMs]);
 
   useEffect(() => {
     if (cooldownSeconds <= 0) {
