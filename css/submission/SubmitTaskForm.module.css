@@ -1,0 +1,89 @@
+.section {
+  padding: 1.25rem 0 3rem;
+}
+
+.form {
+  display: grid;
+  gap: 1rem;
+  padding: 1.75rem;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 2rem;
+  background: linear-gradient(180deg, rgba(18, 15, 14, 0.95), rgba(10, 9, 9, 0.95));
+}
+
+.field {
+  display: grid;
+  gap: 0.65rem;
+}
+
+.field span {
+  color: #fff4ec;
+  font-weight: 700;
+}
+
+.field input,
+.field textarea {
+  width: 100%;
+  padding: 0.95rem 1rem;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 1rem;
+  background: rgba(255, 255, 255, 0.04);
+  color: #fff4ec;
+  font: inherit;
+}
+
+.field textarea {
+  resize: vertical;
+}
+
+.field small {
+  color: rgba(255, 244, 236, 0.58);
+}
+
+.submitButton {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem 1.2rem;
+  border: 0;
+  border-radius: 1rem;
+  background: linear-gradient(135deg, #dd6a35, #b24420);
+  color: #fff;
+  font: inherit;
+  cursor: pointer;
+  overflow: hidden;
+}
+
+.buttonLabel,
+.submitButton::after {
+  transition: transform 0.28s ease, opacity 0.28s ease;
+}
+
+.submitButton::after {
+  content: attr(data-text);
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transform: translateY(135%);
+  opacity: 0;
+}
+
+.submitButton:hover .buttonLabel {
+  transform: translateY(-135%);
+  opacity: 0;
+}
+
+.submitButton:hover::after {
+  transform: translateY(0);
+  opacity: 1;
+}
+
+@media screen and (max-width: 720px) {
+  .form {
+    padding: 1.25rem;
+    border-radius: 1.5rem;
+  }
+}

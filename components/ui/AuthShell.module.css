@@ -7,6 +7,7 @@
   background:
     radial-gradient(circle at top, rgba(227, 89, 39, 0.28), transparent 32%),
     linear-gradient(180deg, #120b09 0%, #050505 100%);
+  overflow: hidden;
 }
 
 .backdrop {
@@ -17,16 +18,45 @@
     radial-gradient(circle at bottom right, rgba(227, 89, 39, 0.18), transparent 28%);
 }
 
+.backdrop::before,
+.backdrop::after {
+  content: "";
+  position: absolute;
+  border-radius: 999px;
+  filter: blur(8px);
+  animation: authFloat 11s ease-in-out infinite;
+}
+
+.backdrop::before {
+  top: 10%;
+  left: -4rem;
+  width: 14rem;
+  height: 14rem;
+  background: radial-gradient(circle, rgba(255, 255, 255, 0.08), transparent 68%);
+}
+
+.backdrop::after {
+  right: -3rem;
+  bottom: 9%;
+  width: 16rem;
+  height: 16rem;
+  background: radial-gradient(circle, rgba(227, 89, 39, 0.18), transparent 72%);
+  animation-delay: -4s;
+}
+
 .shell {
   position: relative;
   z-index: 1;
   width: min(100%, 540px);
-  padding: 32px;
+  padding: 28px;
   border: 1px solid rgba(255, 255, 255, 0.08);
   border-radius: 28px;
-  background: rgba(12, 12, 12, 0.9);
+  background:
+    linear-gradient(145deg, rgba(24, 19, 18, 0.94), rgba(10, 10, 10, 0.92)),
+    rgba(12, 12, 12, 0.9);
   box-shadow: 0 24px 80px rgba(0, 0, 0, 0.4);
   backdrop-filter: blur(18px);
+  animation: shellRise 0.75s cubic-bezier(0.22, 1, 0.36, 1) both;
 }
 
 .header {
@@ -63,6 +93,29 @@
 .content {
   display: grid;
   gap: 16px;
+}
+
+@keyframes shellRise {
+  from {
+    opacity: 0;
+    transform: translateY(24px) scale(0.98);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes authFloat {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0);
+  }
+
+  50% {
+    transform: translate3d(0, 18px, 0);
+  }
 }
 
 @media (max-width: 640px) {

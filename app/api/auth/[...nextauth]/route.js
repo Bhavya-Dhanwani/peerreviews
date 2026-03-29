@@ -16,7 +16,7 @@ const handler = NextAuth({
     }),
   ],
   secret: process.env.NEXTAUTH_SECRET,
-  
+
   session: {
     strategy: "jwt",
   },
@@ -31,13 +31,24 @@ const handler = NextAuth({
           name: user.name,
           email: user.email,
           avatar: user.image,
-          isVerified: true, 
-          provider: account.provider, 
+          isVerified: true,
+          provider: account.provider,
         });
-      } else if (!existingUser.isVerified) {
+      } else {
+        existingUser.name = user.name || existingUser.name;
         existingUser.isVerified = true;
+
+        if (user.image) {
+          existingUser.avatar = user.image;
+        }
+
+        if (account?.provider) {
+          existingUser.provider = account.provider;
+        }
+
         await existingUser.save();
       }
+
       return true;
     },
 
@@ -48,13 +59,18 @@ const handler = NextAuth({
       return token;
     },
 
-    async session({ session, token }) {
+    async session({ session }) {
       await connectDB();
       const dbUser = await User.findOne({ email: session.user.email });
+
       if (dbUser) {
         session.user.id = dbUser._id.toString();
         session.user.isVerified = dbUser.isVerified;
+        session.user.image = dbUser.avatar || session.user.image;
+        session.user.avatar = dbUser.avatar || session.user.image || "";
+        session.user.role = dbUser.role;
       }
+
       return session;
     },
   },

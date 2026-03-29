@@ -1,0 +1,210 @@
+.page {
+  min-height: 100vh;
+  padding: 1.5rem;
+  background: linear-gradient(180deg, #050505 0%, #090606 100%);
+}
+
+.heroCard,
+.card,
+.emptyState,
+.form {
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: linear-gradient(180deg, rgba(18, 15, 14, 0.95), rgba(10, 9, 9, 0.95));
+}
+
+.heroCard {
+  padding: 1.8rem;
+  border-radius: 2rem;
+}
+
+.topBar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 0.8rem;
+}
+
+.breadcrumbs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.7rem;
+}
+
+.homeLink,
+.crumbLink {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 2.4rem;
+  padding: 0.6rem 0.9rem;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.04);
+  color: rgba(255, 244, 236, 0.88);
+  text-decoration: none;
+}
+
+.eyebrow {
+  display: inline-flex;
+  color: #f06f3d;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+
+.title {
+  color: #fff4ec;
+  font-family: neue;
+  font-size: clamp(2.4rem, 4vw, 4rem);
+}
+
+.subtitle {
+  margin-top: 0.9rem;
+  color: rgba(255, 244, 236, 0.72);
+  line-height: 1.8;
+}
+
+.metaRow,
+.actions,
+.cardTop,
+.linkRow,
+.statGroup {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.8rem;
+  justify-content: space-between;
+}
+
+.metaRow {
+  margin-top: 1rem;
+  justify-content: flex-start;
+}
+
+.metaChip {
+  padding: 0.6rem 0.85rem;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.05);
+  color: rgba(255, 244, 236, 0.88);
+}
+
+.grid {
+  display: grid;
+  gap: 1rem;
+  margin-top: 1.25rem;
+}
+
+.card {
+  display: grid;
+  gap: 1rem;
+  padding: 1.4rem;
+  border-radius: 1.6rem;
+}
+
+.cardTop {
+  align-items: flex-start;
+}
+
+.cardTitle {
+  color: #fff4ec;
+  font-family: neue;
+  font-size: 1.6rem;
+}
+
+.cardDate {
+  margin-top: 0.35rem;
+  color: rgba(255, 244, 236, 0.68);
+}
+
+.statGroup {
+  justify-content: flex-start;
+}
+
+.statChip {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  align-self: flex-start;
+  min-height: 2.25rem;
+  padding: 0.4rem 0.8rem;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.04);
+  color: rgba(255, 244, 236, 0.84);
+  font-size: 0.92rem;
+  line-height: 1;
+  white-space: nowrap;
+}
+
+.linkRow {
+  justify-content: flex-start;
+}
+
+.primaryAction,
+.secondaryAction {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.9rem 1.1rem;
+  border-radius: 1rem;
+  text-decoration: none;
+  overflow: hidden;
+}
+
+.primaryAction {
+  background: linear-gradient(135deg, #dd6a35, #b24420);
+  color: #fff;
+}
+
+.secondaryAction {
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  color: rgba(255, 244, 236, 0.88);
+}
+
+.buttonLabel,
+.primaryAction::after,
+.secondaryAction::after {
+  transition: transform 0.28s ease, opacity 0.28s ease;
+}
+
+.primaryAction::after,
+.secondaryAction::after {
+  content: attr(data-text);
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transform: translateY(135%);
+  opacity: 0;
+}
+
+.primaryAction:hover .buttonLabel,
+.secondaryAction:hover .buttonLabel {
+  transform: translateY(-135%);
+  opacity: 0;
+}
+
+.primaryAction:hover::after,
+.secondaryAction:hover::after {
+  transform: translateY(0);
+  opacity: 1;
+}
+
+.emptyState {
+  display: grid;
+  gap: 1rem;
+  justify-items: start;
+  margin-top: 1.25rem;
+  padding: 1.4rem;
+  border-radius: 1.5rem;
+  color: rgba(255, 244, 236, 0.74);
+}
+
+@media screen and (max-width: 720px) {
+  .topBar,
+  .cardTop {
+    flex-wrap: wrap;
+  }
+}
