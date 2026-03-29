@@ -1,0 +1,178 @@
+.page {
+  min-height: 100vh;
+  padding: 1.5rem;
+  background: linear-gradient(180deg, #050505 0%, #090606 100%);
+}
+
+.hero {
+  display: grid;
+  grid-template-columns: minmax(0, 1.35fr) minmax(18rem, 0.85fr);
+  gap: 1.25rem;
+}
+
+.copyCard,
+.criteriaCard {
+  padding: 1.8rem;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 2rem;
+  background: linear-gradient(180deg, rgba(18, 15, 14, 0.95), rgba(10, 9, 9, 0.95));
+}
+
+.topBar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 0.8rem;
+}
+
+.breadcrumbs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.7rem;
+}
+
+.homeLink,
+.crumbLink {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 2.4rem;
+  padding: 0.6rem 0.9rem;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.04);
+  color: rgba(255, 244, 236, 0.88);
+  text-decoration: none;
+}
+
+.eyebrow {
+  display: inline-flex;
+  color: #f06f3d;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+
+.title {
+  color: #fff4ec;
+  font-family: neue;
+  font-size: clamp(2.4rem, 4vw, 4rem);
+}
+
+.subtitle {
+  margin-top: 0.9rem;
+  color: rgba(255, 244, 236, 0.72);
+  line-height: 1.8;
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.85rem;
+  margin-top: 1.3rem;
+}
+
+.primaryAction,
+.secondaryAction {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.95rem 1.25rem;
+  border-radius: 1rem;
+  text-decoration: none;
+  overflow: hidden;
+}
+
+.primaryAction {
+  background: linear-gradient(135deg, #dd6a35, #b24420);
+  color: #fff;
+}
+
+.secondaryAction {
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: rgba(255, 255, 255, 0.04);
+  color: rgba(255, 244, 236, 0.88);
+}
+
+.buttonLabel,
+.primaryAction::after,
+.secondaryAction::after {
+  transition: transform 0.28s ease, opacity 0.28s ease;
+}
+
+.primaryAction::after,
+.secondaryAction::after {
+  content: attr(data-text);
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transform: translateY(135%);
+  opacity: 0;
+}
+
+.primaryAction:hover .buttonLabel,
+.secondaryAction:hover .buttonLabel {
+  transform: translateY(-135%);
+  opacity: 0;
+}
+
+.primaryAction:hover::after,
+.secondaryAction:hover::after {
+  transform: translateY(0);
+  opacity: 1;
+}
+
+.criteriaTitle {
+  color: #fff4ec;
+  font-family: neue;
+  font-size: 1.6rem;
+}
+
+.criteriaList {
+  display: grid;
+  gap: 0.85rem;
+  margin-top: 1rem;
+}
+
+.criteriaItem {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 0.9rem 1rem;
+  border-radius: 1rem;
+  background: rgba(255, 255, 255, 0.04);
+}
+
+.criteriaItem span {
+  color: rgba(255, 244, 236, 0.74);
+}
+
+.criteriaItem strong {
+  color: #fff4ec;
+}
+
+@media screen and (max-width: 900px) {
+  .hero {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media screen and (max-width: 720px) {
+  .page {
+    padding: 1rem;
+  }
+
+  .copyCard,
+  .criteriaCard {
+    padding: 1.25rem;
+    border-radius: 1.5rem;
+  }
+
+  .topBar {
+    flex-wrap: wrap;
+  }
+}

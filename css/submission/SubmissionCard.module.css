@@ -1,0 +1,199 @@
+.card {
+  display: grid;
+  gap: 1rem;
+  padding: 1.4rem;
+  border-radius: 1.6rem;
+  animation: threadIn 0.5s ease both;
+}
+
+.identity,
+.actions,
+.linkRow,
+.supportActions,
+.metrics,
+.leftMetrics,
+.rightMetrics {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.identity,
+.actions {
+  justify-content: space-between;
+}
+
+.metrics {
+  justify-content: space-between;
+  flex-wrap: wrap;
+}
+
+.leftMetrics,
+.rightMetrics {
+  justify-content: flex-start;
+  flex-wrap: wrap;
+}
+
+.avatar {
+  display: grid;
+  place-items: center;
+  width: 3rem;
+  height: 3rem;
+  border-radius: 1rem;
+  background: linear-gradient(135deg, #dd6a35, #b24420);
+  color: #fff;
+  font-weight: 700;
+}
+
+.name {
+  color: #fff4ec;
+  font-family: neue;
+  font-size: 1.5rem;
+}
+
+.meta,
+.leftMetrics span,
+.reviewMetric {
+  color: rgba(255, 244, 236, 0.68);
+}
+
+.scoreMetric {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 2.1rem;
+  padding: 0.32rem 0.75rem;
+  border: 1px solid rgba(246, 196, 83, 0.22);
+  border-radius: 999px;
+  background: rgba(246, 196, 83, 0.09);
+  color: #ffd26d;
+  font-size: 0.94rem;
+  font-weight: 600;
+}
+
+.linkRow {
+  flex-wrap: wrap;
+  justify-content: flex-start;
+}
+
+.linkChip {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 2.4rem;
+  padding: 0.55rem 0.8rem;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.05);
+  color: rgba(255, 244, 236, 0.84);
+  text-decoration: none;
+}
+
+.supportActions {
+  justify-content: flex-start;
+  flex-wrap: wrap;
+}
+
+.primaryButton,
+.secondaryButton,
+.likeButton,
+.likeButtonActive {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.55rem;
+  padding: 0.9rem 1.1rem;
+  border-radius: 1rem;
+  font: inherit;
+  cursor: pointer;
+  overflow: hidden;
+}
+
+.primaryButton {
+  flex-shrink: 0;
+  border: 0;
+  background: linear-gradient(135deg, #dd6a35, #b24420);
+  color: #fff;
+}
+
+.secondaryButton {
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  background: rgba(255, 255, 255, 0.05);
+  color: rgba(255, 244, 236, 0.92);
+}
+
+.likeButton,
+.likeButtonActive {
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: rgba(255, 255, 255, 0.05);
+  color: rgba(255, 244, 236, 0.9);
+}
+
+.likeButtonActive {
+  border-color: rgba(227, 89, 39, 0.3);
+  background: rgba(227, 89, 39, 0.16);
+  color: #ffb188;
+}
+
+.thumbIcon {
+  width: 1.15rem;
+  height: 1.15rem;
+  flex: 0 0 auto;
+}
+
+.buttonLabel,
+.primaryButton::after,
+.secondaryButton::after {
+  transition: transform 0.28s ease, opacity 0.28s ease;
+}
+
+.primaryButton::after,
+.secondaryButton::after {
+  content: attr(data-text);
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transform: translateY(135%);
+  opacity: 0;
+}
+
+.primaryButton:hover .buttonLabel,
+.secondaryButton:hover .buttonLabel {
+  transform: translateY(-135%);
+  opacity: 0;
+}
+
+.primaryButton:hover::after,
+.secondaryButton:hover::after {
+  transform: translateY(0);
+  opacity: 1;
+}
+
+@keyframes threadIn {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media screen and (max-width: 720px) {
+  .identity,
+  .actions,
+  .metrics {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .supportActions,
+  .leftMetrics,
+  .rightMetrics {
+    width: 100%;
+  }
+}

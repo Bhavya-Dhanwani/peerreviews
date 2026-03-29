@@ -24,6 +24,8 @@ export function getPublicUser(user) {
     id: String(user._id),
     name: user.name,
     email: user.email,
+    avatar: user.avatar || "",
+    provider: user.provider || "credentials",
     role: user.role,
     isVerified: user.isVerified,
     createdAt: user.createdAt,

@@ -1,3 +1,7 @@
+.container {
+  display: grid;
+}
+
 .stack {
   display: grid;
   gap: 14px;
@@ -6,6 +10,35 @@
 .row {
   display: grid;
   gap: 14px;
+}
+
+.formIntro {
+  display: grid;
+  gap: 10px;
+  padding: 14px 16px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 18px;
+  background:
+    linear-gradient(135deg, rgba(227, 89, 39, 0.12), rgba(255, 255, 255, 0.025)),
+    rgba(255, 255, 255, 0.02);
+}
+
+.introBadge {
+  width: fit-content;
+  padding: 7px 11px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.08);
+  color: #ffd1bc;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.introText {
+  color: rgba(255, 247, 242, 0.72);
+  font-size: 14px;
+  line-height: 1.65;
 }
 
 .field {
@@ -18,19 +51,20 @@
 }
 
 .label {
-  color: rgba(255, 247, 242, 0.78);
+  color: rgba(255, 247, 242, 0.82);
   font-size: 14px;
-  font-weight: 600;
+  font-weight: 700;
 }
 
 .input {
   width: 100%;
-  padding: 14px 16px;
+  padding: 15px 16px;
   border: 1px solid rgba(255, 255, 255, 0.12);
-  border-radius: 14px;
-  background: rgba(255, 255, 255, 0.04);
+  border-radius: 16px;
+  background: rgba(255, 255, 255, 0.045);
   color: #fff7f2;
   font: inherit;
+  transition: border-color 0.22s ease, background 0.22s ease, transform 0.22s ease;
 }
 
 .passwordInput {
@@ -38,8 +72,11 @@
 }
 
 .input:focus {
-  outline: 2px solid rgba(227, 89, 39, 0.5);
-  outline-offset: 2px;
+  outline: none;
+  border-color: rgba(227, 89, 39, 0.7);
+  background: rgba(255, 255, 255, 0.07);
+  transform: translateY(-1px);
+  box-shadow: 0 0 0 4px rgba(227, 89, 39, 0.14);
 }
 
 .toggle {
@@ -73,44 +110,158 @@
   line-height: 1.4;
 }
 
-.button {
+.button,
+.oauthButton,
+.secondaryButton {
+  position: relative;
   width: 100%;
-  padding: 14px 18px;
-  border: 0;
-  border-radius: 999px;
-  background: linear-gradient(135deg, #ff7b45 0%, #e35927 100%);
-  color: #1b0903;
-  font-size: 15px;
-  font-weight: 800;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
   cursor: pointer;
+  transition: transform 0.24s ease, box-shadow 0.24s ease, background 0.24s ease;
 }
 
-.button:disabled {
+.button,
+.oauthButton {
+  padding: 14px 18px;
+  border-radius: 16px;
+  font-size: 15px;
+  font-weight: 800;
+}
+
+.button {
+  border: 0;
+  background: linear-gradient(135deg, #ff8755 0%, #e35927 100%);
+  color: #1b0903;
+  box-shadow: 0 16px 36px rgba(227, 89, 39, 0.22);
+}
+
+.button:disabled,
+.oauthButton:disabled,
+.secondaryButton:disabled {
   opacity: 0.7;
   cursor: wait;
 }
 
 .secondaryButton {
-  width: 100%;
-  padding: 12px 16px;
+  padding: 13px 16px;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  border-radius: 16px;
+  background: rgba(255, 255, 255, 0.04);
+  color: #fff7f2;
+  font: inherit;
+}
+
+.buttonText,
+.button::after,
+.secondaryButton::after {
+  transition: transform 0.28s ease, opacity 0.28s ease;
+}
+
+.buttonText {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.button::after,
+.secondaryButton::after {
+  content: attr(data-text);
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transform: translateY(135%);
+  opacity: 0;
+}
+
+.button:hover,
+.oauthButton:hover,
+.secondaryButton:hover {
+  transform: translateY(-2px);
+}
+
+.button:hover .buttonText,
+.secondaryButton:hover .buttonText {
+  transform: translateY(-135%);
+  opacity: 0;
+}
+
+.button:hover::after,
+.secondaryButton:hover::after {
+  transform: translateY(0);
+  opacity: 1;
+}
+
+.separator {
+  display: flex;
+  align-items: center;
+  text-align: center;
+  margin: 4px 0;
+  color: rgba(255, 247, 242, 0.42);
+  font-size: 0.76rem;
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
+}
+
+.separator::before,
+.separator::after {
+  content: "";
+  flex: 1;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+.separator span {
+  margin: 0 10px;
+}
+
+.oauthStack {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.9rem;
+}
+
+.oauthButton {
+  width: 58px;
+  height: 58px;
+  min-width: 58px;
+  padding: 0;
   border: 1px solid rgba(255, 255, 255, 0.14);
   border-radius: 999px;
   background: transparent;
-  color: #fff7f2;
-  font: inherit;
-  cursor: pointer;
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.22);
 }
 
-.actionRow {
-  display: grid;
-  gap: 8px;
+.oauthIcon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  flex: 0 0 24px;
 }
 
-.actionHint {
-  color: rgba(255, 247, 242, 0.64);
-  font-size: 13px;
-  line-height: 1.4;
-  text-align: center;
+.oauthIcon svg {
+  width: 24px;
+  height: 24px;
+}
+
+.googleButton {
+  color: #ffffff;
+}
+
+.githubButton {
+  color: #f5f7fa;
+}
+
+.oauthButton:hover {
+  border-color: rgba(227, 89, 39, 0.34);
+  background: rgba(255, 255, 255, 0.04);
+  box-shadow: 0 14px 34px rgba(0, 0, 0, 0.28);
 }
 
 .message {
@@ -148,70 +299,15 @@
   text-decoration: none;
   font-size: 14px;
   font-weight: 700;
+  transition: color 0.22s ease, transform 0.22s ease;
 }
 
 .link:hover {
   color: #ffd4c0;
+  transform: translateX(2px);
 }
 
 .inlineValue {
   color: #fff7f2;
   font-weight: 700;
-}
-
-/* --- Shared OAuth & Separator Styles --- */
-
-.separator {
-  display: flex;
-  align-items: center;
-  text-align: center;
-  margin: 1.5rem 0;
-  color: #888;
-  font-size: 0.8rem;
-  text-transform: uppercase;
-  letter-spacing: 1px;
-}
-
-.separator::before,
-.separator::after {
-  content: '';
-  flex: 1;
-  border-bottom: 1px solid #e2e8f0;
-}
-
-.separator span {
-  margin: 0 10px;
-}
-
-.oauthStack {
-  display: flex;
-  flex-direction: column;
-  gap: 0.75rem;
-}
-
-.googleButton {
-  background-color: #ffffff !important;
-  color: #1a202c !important;
-  border: 1px solid #e2e8f0 !important;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 10px;
-}
-
-.githubButton {
-  background-color: #24292e !important;
-  color: #ffffff !important;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 10px;
-}
-
-.googleButton:hover {
-  background-color: #f7fafc !important;
-}
-
-.githubButton:hover {
-  background-color: #1a1e22 !important;
 }

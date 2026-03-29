@@ -39,6 +39,7 @@ body {
   overflow-x: hidden;
   background: var(--secondary);
   scrollbar-width: none;
+  color-scheme: dark;
 }
 
 h1,
@@ -53,4 +54,23 @@ h6 {
 
 *::-webkit-scrollbar {
   display: none;
+}
+
+select,
+option,
+optgroup {
+  font-family: inherit;
+}
+
+option,
+optgroup {
+  background: #120f0e;
+  color: #fff4ec;
+}
+
+option:checked,
+option:hover,
+option:focus {
+  background: linear-gradient(135deg, rgba(227, 89, 39, 0.28), rgba(178, 68, 32, 0.52));
+  color: #ffffff;
 }
