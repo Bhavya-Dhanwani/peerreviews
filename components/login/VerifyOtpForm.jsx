@@ -79,6 +79,10 @@ export default function VerifyOtpForm({ email = "", initialLastSentAtMs = 0 }) {
     try {
       const response = await fetch("/api/auth/resend-otp", {
         method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ email }),
       });
       const result = await response.json();
 
@@ -87,6 +91,7 @@ export default function VerifyOtpForm({ email = "", initialLastSentAtMs = 0 }) {
 
         if (retryAfterSeconds > 0) {
           setCooldownSeconds(retryAfterSeconds);
+          toast.error(result.message || "Please wait before requesting another OTP.");
           return;
         }
 
