@@ -4,6 +4,7 @@ import jwt from "jsonwebtoken";
 import connectDB from "@/config/db.config";
 import User from "@/models/userModel";
 import { getPublicUser } from "@/utils/auth.util";
+import decodeJWT from "@/utils/decodeJWT.util";
 import { getEpochDate, getFutureDate } from "@/utils/date.util";
 
 export const SESSION_COOKIE_NAME = "feedback_session";
@@ -111,7 +112,23 @@ export async function getCurrentSessionFromToken(token) {
 export async function getCurrentSession() {
   const cookieStore = await cookies();
   const token = cookieStore.get(SESSION_COOKIE_NAME)?.value;
-  return getCurrentSessionFromToken(token);
+  const customSession = await getCurrentSessionFromToken(token);
+
+  if (customSession) {
+    return customSession;
+  }
+
+  const user = await decodeJWT();
+
+  if (!user) {
+    return null;
+  }
+
+  return {
+    id: String(user.id || user._id || ""),
+    expiresAt: null,
+    user,
+  };
 }
 
 export async function requireUserSession() {

@@ -450,6 +450,64 @@
   margin-top: 1rem;
 }
 
+.credibilityCard {
+  display: grid;
+  gap: 0.8rem;
+  padding: 1rem 1.05rem;
+  border: 1px solid rgba(246, 196, 83, 0.2);
+  border-radius: 1.2rem;
+  background: rgba(246, 196, 83, 0.08);
+}
+
+.credibilityHeader,
+.credibilityFacts {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.8rem;
+  flex-wrap: wrap;
+}
+
+.credibilityLabel {
+  display: inline-flex;
+  margin-bottom: 0.25rem;
+  color: rgba(255, 244, 236, 0.62);
+  text-transform: uppercase;
+}
+
+.credibilityScore {
+  color: #fff4ec;
+  font-family: neue;
+  font-size: 1.5rem;
+}
+
+.credibilityChip {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 2.15rem;
+  padding: 0.4rem 0.8rem;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.06);
+  color: rgba(255, 244, 236, 0.86);
+}
+
+.credibilityCopy,
+.credibilityFacts span {
+  color: rgba(255, 244, 236, 0.76);
+  line-height: 1.6;
+}
+
+.credibilityFacts span {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 2.15rem;
+  padding: 0.4rem 0.75rem;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.04);
+}
+
 .commentCard {
   display: grid;
   grid-template-columns: auto minmax(0, 1fr);
@@ -520,7 +578,9 @@
   .commentMeta,
   .reviewHeaderBar,
   .fieldHeader,
-  .headerChips {
+  .headerChips,
+  .credibilityHeader,
+  .credibilityFacts {
     flex-direction: column;
     align-items: stretch;
   }

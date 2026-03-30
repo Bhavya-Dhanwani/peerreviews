@@ -5,7 +5,7 @@ import Submission from "@/models/submission.model";
 import TaskDetailPage from "@/components/task/TaskDetailPage";
 import decodeJWT from "@/utils/decodeJWT.util";
 import { serializeTask } from "@/utils/discussionData.util";
-import { isTaskScheduled } from "@/utils/taskSchedule.util";
+import { isSubmissionClosed, isTaskScheduled } from "@/utils/taskSchedule.util";
 
 export default async function TaskPage({ params }) {
   const currentUser = await decodeJWT();
@@ -22,6 +22,22 @@ export default async function TaskPage({ params }) {
   }
 
   const submissionCount = await Submission.countDocuments({ taskId });
+  const isDeadlineClosed = isSubmissionClosed(task);
+  const hasSubmitted = currentUser?.id
+    ? Boolean(
+        await Submission.exists({
+          taskId,
+          userId: currentUser.id,
+        })
+      )
+    : false;
 
-  return <TaskDetailPage task={serializeTask(task)} submissionCount={submissionCount} />;
+  return (
+    <TaskDetailPage
+      task={serializeTask(task)}
+      submissionCount={submissionCount}
+      hasSubmitted={hasSubmitted}
+      isSubmissionClosed={isDeadlineClosed}
+    />
+  );
 }

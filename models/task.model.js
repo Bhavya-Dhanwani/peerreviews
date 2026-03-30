@@ -35,11 +35,19 @@ const taskSchema = mongoose.Schema(
       type: Date,
       required: true,
     },
+    submissionDeadline: {
+      type: Date,
+      default: null,
+    },
   },
   {
     timestamps: true,
   }
 );
 
-const Task = mongoose.models.Task || mongoose.model("Task", taskSchema);
+if (mongoose.models.Task) {
+  delete mongoose.models.Task;
+}
+
+const Task = mongoose.model("Task", taskSchema);
 export default Task;

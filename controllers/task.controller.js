@@ -2,6 +2,7 @@ import Task from "@/models/task.model";
 import ExpressError from "@/utils/ExpressError.util";
 import {
   buildTaskVisibilityFilter,
+  normalizeSubmissionDeadlineInput,
   normalizeTaskStartDateInput,
 } from "@/utils/taskSchedule.util";
 
@@ -22,6 +23,7 @@ function sanitizeTaskPayload(body = {}) {
           .filter((item) => item.label)
       : [],
     startDate: String(body.startDate || "").trim(),
+    submissionDeadline: String(body.submissionDeadline || "").trim(),
   };
 }
 
@@ -47,6 +49,15 @@ export async function createTask(req) {
     throw new ExpressError(normalizedStartDate.message, 400);
   }
 
+  const normalizedSubmissionDeadline = normalizeSubmissionDeadlineInput(
+    body.submissionDeadline,
+    normalizedStartDate.value
+  );
+
+  if (!normalizedSubmissionDeadline.ok) {
+    throw new ExpressError(normalizedSubmissionDeadline.message, 400);
+  }
+
   const newTask = await Task.create({
     title: body.title,
     description_md: body.description_md,
@@ -54,6 +65,7 @@ export async function createTask(req) {
     tags: body.tags,
     review: body.review,
     startDate: normalizedStartDate.value,
+    submissionDeadline: normalizedSubmissionDeadline.value,
   });
 
   return {
@@ -77,6 +89,15 @@ export async function updateTask(req, { params }) {
     throw new ExpressError(normalizedStartDate.message, 400);
   }
 
+  const normalizedSubmissionDeadline = normalizeSubmissionDeadlineInput(
+    body.submissionDeadline,
+    normalizedStartDate.value
+  );
+
+  if (!normalizedSubmissionDeadline.ok) {
+    throw new ExpressError(normalizedSubmissionDeadline.message, 400);
+  }
+
   const updatedTask = await Task.findByIdAndUpdate(
     id,
     {
@@ -86,6 +107,7 @@ export async function updateTask(req, { params }) {
       tags: body.tags,
       review: body.review,
       startDate: normalizedStartDate.value,
+      submissionDeadline: normalizedSubmissionDeadline.value,
     },
     {
       new: true,

@@ -2,10 +2,11 @@
   "name": "peerreviews",
   "version": "0.1.0",
   "private": true,
+  "type": "module",
   "scripts": {
-    "dev": "node server.js",
+    "dev": "node server.mjs",
     "build": "next build",
-    "start": "node server.js --prod",
+    "start": "node server.mjs --prod",
     "lint": "eslint"
   },
   "dependencies": {

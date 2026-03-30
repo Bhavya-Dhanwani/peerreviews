@@ -77,6 +77,7 @@ export default function SubmissionModal() {
     activePanel,
     commentText,
     closeSubmission,
+    currentUserCredibility,
     currentUserId,
     isCommenting,
     isReviewing,
@@ -107,6 +108,8 @@ export default function SubmissionModal() {
   const likedWordCount = getWordCount(likedComment);
   const improveWordCount = getWordCount(reviewComment);
   const projectScore = Number(selectedSubmission.averageScoreOutOf10 || 0).toFixed(1);
+  const credibilityScore = Number(currentUserCredibility?.credibilityScore || 0).toFixed(1);
+  const credibilityInputs = currentUserCredibility?.inputs || null;
 
   return (
     <div className={styles.backdrop} onClick={closeSubmission}>
@@ -277,6 +280,26 @@ export default function SubmissionModal() {
               <h3 className={styles.composeTitle}>Add Your Review</h3>
               <p className={styles.sectionCopy}>All ratings start from 0. Fill the stars you want, then keep both written sections within 300 words.</p>
             </div>
+            {currentUserCredibility ? (
+              <div className={styles.credibilityCard}>
+                <div className={styles.credibilityHeader}>
+                  <div>
+                    <span className={styles.credibilityLabel}>Your credibility</span>
+                    <strong className={styles.credibilityScore}>{credibilityScore} / 1.5</strong>
+                  </div>
+                  <span className={styles.credibilityChip}>Only visible to you</span>
+                </div>
+                <p className={styles.credibilityCopy}>
+                  Your review weight depends on account trust, review history, verification status, and basic abuse checks.
+                </p>
+                <div className={styles.credibilityFacts}>
+                  <span>{credibilityInputs?.reviewCount || 0} reviews given</span>
+                  <span>{credibilityInputs?.emailVerified ? "Email verified" : "Email not verified"}</span>
+                  <span>{credibilityInputs?.hasConnectedIdentity ? "Identity connected" : "No linked identity"}</span>
+                  <span>{credibilityInputs?.suspicious ? "Suspicious flag active" : "No suspicious flag"}</span>
+                </div>
+              </div>
+            ) : null}
             <div className={styles.criteriaGrid}>
               {(task.review || []).map((criterion) => {
                 const maxScore = Math.max(1, criterion.maxScore || 1);

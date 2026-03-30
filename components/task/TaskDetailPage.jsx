@@ -2,7 +2,15 @@ import Link from "next/link";
 import TaskMarkdown from "@/components/task/TaskMarkdown";
 import styles from "@/css/task/TaskDetailPage.module.css";
 
-export default function TaskDetailPage({ task, submissionCount = 0 }) {
+export default function TaskDetailPage({ task, submissionCount = 0, hasSubmitted = false, isSubmissionClosed = false }) {
+  const deadlineLabel = task.submissionDeadline
+    ? new Date(task.submissionDeadline).toLocaleDateString("en-IN", {
+        day: "2-digit",
+        month: "short",
+        year: "numeric",
+      })
+    : null;
+
   return (
     <main className={styles.page}>
       <section className={styles.hero}>
@@ -17,6 +25,11 @@ export default function TaskDetailPage({ task, submissionCount = 0 }) {
           <p className={styles.subtitle}>
             Read the project brief, understand the structured review points, and then join the peer discussion around submitted solutions.
           </p>
+          {deadlineLabel ? (
+            <p className={styles.subtitle}>
+              Submission deadline: <strong>{deadlineLabel}</strong>
+            </p>
+          ) : null}
 
           <div className={styles.tagRow}>
             <span className={styles.difficulty}>{task.difficulty || "Open"}</span>
@@ -26,7 +39,13 @@ export default function TaskDetailPage({ task, submissionCount = 0 }) {
           </div>
 
           <div className={styles.actions}>
-            <Link href={`/task/${task._id}/submit`} className={styles.primaryAction} data-text="Submit Project"><span className={styles.buttonLabel}>Submit Project</span></Link>
+            {hasSubmitted ? (
+              <span className={styles.disabledAction}>Submitted</span>
+            ) : isSubmissionClosed ? (
+              <span className={styles.closedAction}>Submission Closed</span>
+            ) : (
+              <Link href={`/task/${task._id}/submit`} className={styles.primaryAction} data-text="Submit Project"><span className={styles.buttonLabel}>Submit Project</span></Link>
+            )}
             <Link href={`/task/${task._id}/submissions`} className={styles.secondaryAction} data-text={`Submissions (${submissionCount})`}><span className={styles.buttonLabel}>Submissions ({submissionCount})</span></Link>
           </div>
         </div>

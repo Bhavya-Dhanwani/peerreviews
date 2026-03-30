@@ -1,3 +1,6 @@
+﻿"use client";
+
+import { useEffect, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import styles from "@/css/home/Hero.module.css";
@@ -13,25 +16,83 @@ function getInitials(name = "K") {
     .toUpperCase();
 }
 
-function NavItem({ href, label, isAnchor = false }) {
+function NavItem({ href, label, isAnchor = false, onNavigate = null }) {
   const content = <span className={styles.navLabel}>{label}</span>;
 
   if (isAnchor) {
     return (
-      <a href={href} className={styles.navItem} data-text={label}>
+      <a href={href} className={styles.navItem} data-text={label} onClick={onNavigate}>
         {content}
       </a>
     );
   }
 
   return (
-    <Link href={href} className={styles.navItem} data-text={label}>
+    <Link href={href} className={styles.navItem} data-text={label} onClick={onNavigate}>
       {content}
     </Link>
   );
 }
 
-export default function HomeHero({ taskCount = 0, currentUser = null }) {
+export default function HomeHero({ currentUser = null }) {
+  const [menuOpen, setMenuOpen] = useState(false);
+
+  useEffect(() => {
+    if (!menuOpen) {
+      return undefined;
+    }
+
+    const previousOverflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+
+    return () => {
+      document.body.style.overflow = previousOverflow;
+    };
+  }, [menuOpen]);
+
+  const navItems = (
+    <>
+      <NavItem href="/" label="Home" onNavigate={() => setMenuOpen(false)} />
+      <NavItem href="#tasks" label="Tasks" isAnchor onNavigate={() => setMenuOpen(false)} />
+      {currentUser ? <NavItem href="/my-tasks" label="My Tasks" onNavigate={() => setMenuOpen(false)} /> : null}
+      {currentUser?.role === "admin" ? <NavItem href="/admin" label="Admin" onNavigate={() => setMenuOpen(false)} /> : null}
+    </>
+  );
+
+  const userActions = currentUser ? (
+    <>
+      <div className={styles.profileCard}>
+        {currentUser.avatar ? (
+          <Image
+            src={currentUser.avatar}
+            alt={currentUser.name || "User avatar"}
+            width={44}
+            height={44}
+            className={styles.avatarImage}
+            unoptimized
+          />
+        ) : (
+          <div className={styles.avatarFallback}>{getInitials(currentUser.name)}</div>
+        )}
+        <div className={styles.userCopy}>
+          <span className={styles.userName}>{currentUser.name || "User"}</span>
+          <span className={styles.userMeta}>{currentUser.email}</span>
+        </div>
+      </div>
+
+      <LogoutButton
+        className={styles.logoutAction}
+        label="Logout"
+        loadingLabel="Logging out..."
+        labelClassName={styles.buttonLabel}
+      />
+    </>
+  ) : (
+    <Link href="/login" className={styles.loginAction} data-text="Login" onClick={() => setMenuOpen(false)}>
+      <span className={styles.buttonLabel}>Login</span>
+    </Link>
+  );
+
   return (
     <section className={styles.section}>
       <div className={styles.backdrop} />
@@ -53,94 +114,34 @@ export default function HomeHero({ taskCount = 0, currentUser = null }) {
           </Link>
         </div>
 
-        <nav className={styles.navLinks}>
-          <NavItem href="/" label="Home" />
-          <NavItem href="#tasks" label="Tasks" isAnchor />
-          {currentUser ? <NavItem href="/my-tasks" label="My Tasks" /> : null}
-          {currentUser?.role === "admin" ? <NavItem href="/admin" label="Admin" /> : null}
-        </nav>
+        <button
+          type="button"
+          className={menuOpen ? `${styles.menuToggle} ${styles.menuToggleActive}` : styles.menuToggle}
+          onClick={() => setMenuOpen((current) => !current)}
+          aria-label={menuOpen ? "Close navigation menu" : "Open navigation menu"}
+          aria-expanded={menuOpen}
+        >
+          <span />
+          <span />
+          <span />
+        </button>
 
-        <div className={styles.userZone}>
-          {currentUser ? (
-            <>
-              <div className={styles.profileCard}>
-                {currentUser.avatar ? (
-                  <Image
-                    src={currentUser.avatar}
-                    alt={currentUser.name || "User avatar"}
-                    width={44}
-                    height={44}
-                    className={styles.avatarImage}
-                    unoptimized
-                  />
-                ) : (
-                  <div className={styles.avatarFallback}>{getInitials(currentUser.name)}</div>
-                )}
-                <div className={styles.userCopy}>
-                  <span className={styles.userName}>{currentUser.name || "User"}</span>
-                  <span className={styles.userMeta}>{currentUser.email}</span>
-                </div>
-              </div>
+        <nav className={styles.desktopNav}>{navItems}</nav>
 
-              <LogoutButton
-                className={styles.logoutAction}
-                label="Logout"
-                loadingLabel="Logging out..."
-                labelClassName={styles.buttonLabel}
-              />
-            </>
-          ) : (
-            <Link href="/login" className={styles.loginAction} data-text="Login">
-              <span className={styles.buttonLabel}>Login</span>
-            </Link>
-          )}
-        </div>
-      </div>
+        <div className={styles.desktopUser}>{userActions}</div>
 
-      <div className={styles.hero}>
-        <div className={styles.copyColumn}>
-          <span className={styles.eyebrow}>Peer Review Platform</span>
-          <h1 className={styles.title}>Discuss projects, review peer submissions, and improve each build together.</h1>
-          <p className={styles.description}>
-            Pick a task, study the brief, submit your project, then join the discussion around how
-            others approached the same problem.
-          </p>
+        <div className={menuOpen ? `${styles.mobileOverlay} ${styles.mobileOverlayVisible}` : styles.mobileOverlay} onClick={() => setMenuOpen(false)} />
 
-          <div className={styles.actions}>
-            <a href="#tasks" className={styles.primaryAction} data-text="Browse Tasks">
-              <span className={styles.buttonLabel}>Browse Tasks</span>
-            </a>
-            <Link
-              href={currentUser ? "/my-tasks" : "/login"}
-              className={styles.secondaryAction}
-              data-text={currentUser ? "My Tasks" : "Join Discussion"}
-            >
-              <span className={styles.buttonLabel}>{currentUser ? "My Tasks" : "Join Discussion"}</span>
-            </Link>
+        <div className={menuOpen ? `${styles.mobileDrawer} ${styles.mobileDrawerVisible}` : styles.mobileDrawer}>
+          <div className={styles.mobileDrawerHeader}>
+            <span className={styles.mobileDrawerTitle}>Menu</span>
           </div>
-        </div>
 
-        <div className={styles.sideColumn}>
-          <article className={styles.metricCard}>
-            <span className={styles.metricLabel}>Open Review Threads</span>
-            <strong className={styles.metricValue}>{taskCount}</strong>
-            <p className={styles.metricText}>Every task turns into a discussion space for peer submissions and reviews.</p>
-          </article>
+          <nav className={styles.navLinks}>
+            {navItems}
+          </nav>
 
-          <article className={styles.stackCard}>
-            <div className={styles.stackRow}>
-              <span>1</span>
-              <p>Read the task and understand the review criteria.</p>
-            </div>
-            <div className={styles.stackRow}>
-              <span>2</span>
-              <p>Submit your project with repo, live link, and preview images.</p>
-            </div>
-            <div className={styles.stackRow}>
-              <span>3</span>
-              <p>Discuss peer solutions, react, and leave structured reviews.</p>
-            </div>
-          </article>
+          <div className={styles.userZone}>{userActions}</div>
         </div>
       </div>
     </section>

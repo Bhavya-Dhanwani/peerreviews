@@ -1,7 +1,9 @@
 import Submission from "@/models/submission.model";
 import ExpressError from "@/utils/ExpressError.util";
+import { hashToken } from "@/utils/crypto.util";
 import decodeJWT from "@/utils/decodeJWT.util";
 import { serializeSubmission } from "@/utils/discussionData.util";
+import { emitTaskReviewCreated } from "@/lib/socket.server";
 
 const REVIEW_TEXT_WORD_LIMIT = 300;
 
@@ -30,6 +32,47 @@ function formatReviewResponse(review = {}) {
       : [],
     whatYouLiked: review.whatYouLiked || "",
     comment: review.comment || "",
+  };
+}
+
+function calculateAverageRating(ratings = []) {
+  if (!Array.isArray(ratings) || ratings.length === 0) {
+    return 0;
+  }
+
+  const total = ratings.reduce((sum, rating) => sum + Number(rating?.score || 0), 0);
+  return total / ratings.length;
+}
+
+function getReviewerIpHash(req) {
+  const forwardedFor = req.headers.get("x-forwarded-for") || req.headers.get("x-real-ip") || "";
+  const ipAddress = String(forwardedFor).split(",")[0].trim();
+
+  return ipAddress ? hashToken(ipAddress) : "";
+}
+
+function calculateAverageScoreOutOf10(reviews = []) {
+  const maxRatingTotal = reviews.reduce(
+    (total, review) =>
+      total +
+      (Array.isArray(review?.ratings)
+        ? review.ratings.reduce((sum) => sum + 5, 0)
+        : 0),
+    0
+  );
+
+  const ratingTotal = reviews.reduce(
+    (total, review) =>
+      total +
+      (Array.isArray(review?.ratings)
+        ? review.ratings.reduce((sum, rating) => sum + Number(rating?.score || 0), 0)
+        : 0),
+    0
+  );
+
+  return {
+    ratingTotal,
+    averageScoreOutOf10: maxRatingTotal ? Number(((ratingTotal / maxRatingTotal) * 10).toFixed(1)) : 0,
   };
 }
 
@@ -73,6 +116,9 @@ export async function createReview(req) {
     reviewerName: currentUser.name || "",
     reviewerAvatar: currentUser.avatar || "",
     ratings,
+    averageScore: calculateAverageRating(ratings),
+    reviewerIpHash: getReviewerIpHash(req),
+    suspicious: false,
     whatYouLiked: whatYouLiked || "",
     comment: comment || "",
   });
@@ -81,14 +127,15 @@ export async function createReview(req) {
   await submission.populate("reviews.reviewerId", "name avatar");
 
   const reviewCount = submission.reviews.length;
-  const ratingTotal = submission.reviews.reduce(
-    (total, review) =>
-      total +
-      (Array.isArray(review.ratings)
-        ? review.ratings.reduce((sum, rating) => sum + Number(rating.score || 0), 0)
-        : 0),
-    0
-  );
+  const { ratingTotal, averageScoreOutOf10 } = calculateAverageScoreOutOf10(submission.reviews);
+
+  emitTaskReviewCreated(String(submission.taskId || ""), {
+    submissionId: String(submission._id || submissionId),
+    reviewerId: String(currentUser.id || ""),
+    reviewCount,
+    ratingTotal,
+    averageScoreOutOf10,
+  });
 
   return {
     statusCode: 201,
