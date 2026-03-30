@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { signIn } from "next-auth/react"; 
@@ -42,7 +43,13 @@ function GitHubIcon() {
   );
 }
 
-export default function LoginForm() {
+const OAUTH_ERROR_MESSAGES = {
+  AccessDenied: "Google sign-in was denied. Please try again and grant access.",
+  OAuthCallback: "Google sign-in could not be completed. Please try again.",
+  access_denied: "Google sign-in was denied. Please try again and grant access.",
+};
+
+export default function LoginForm({ oauthError = "" }) {
   const router = useRouter();
   const {
     register,
@@ -54,6 +61,17 @@ export default function LoginForm() {
       password: "",
     },
   });
+
+  useEffect(() => {
+    if (!oauthError) {
+      return;
+    }
+
+    toast.error(
+      OAUTH_ERROR_MESSAGES[oauthError] ||
+        "Social sign-in could not be completed. Please try again."
+    );
+  }, [oauthError]);
 
   async function onSubmit(form) {
     try {
