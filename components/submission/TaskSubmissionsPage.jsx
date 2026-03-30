@@ -6,6 +6,15 @@ import SubmissionModal from "@/components/submission/SubmissionModal";
 import styles from "@/css/submission/TaskSubmissionsPage.module.css";
 
 export default function TaskSubmissionsPage({ task, initialSubmissions, currentUser = null }) {
+  const deadlineLabel = task.submissionDeadline
+    ? new Date(task.submissionDeadline).toLocaleDateString("en-IN", {
+        day: "2-digit",
+        month: "short",
+        year: "numeric",
+      })
+    : null;
+  const isSubmissionClosed = task.submissionDeadline ? new Date(task.submissionDeadline) < new Date() : false;
+
   return (
     <SubmissionDiscussionProvider task={task} initialSubmissions={initialSubmissions} currentUser={currentUser}>
       <main className={styles.page}>
@@ -26,9 +35,18 @@ export default function TaskSubmissionsPage({ task, initialSubmissions, currentU
             <p className={styles.subtitle}>
               Browse every peer submission for this task, react to the work, and open the full review discussion inside the modal thread.
             </p>
+            {deadlineLabel ? (
+              <p className={styles.subtitle}>
+                Submission deadline: <strong>{deadlineLabel}</strong>
+              </p>
+            ) : null}
             <div className={styles.actions}>
               <Link href={`/task/${task._id}`} className={styles.secondaryAction} data-text="Back To Task"><span className={styles.buttonLabel}>Back To Task</span></Link>
-              <Link href={`/task/${task._id}/submit`} className={styles.primaryAction} data-text="Submit Your Project"><span className={styles.buttonLabel}>Submit Your Project</span></Link>
+              {isSubmissionClosed ? (
+                <span className={styles.closedAction}>Submission Closed</span>
+              ) : (
+                <Link href={`/task/${task._id}/submit`} className={styles.primaryAction} data-text="Submit Your Project"><span className={styles.buttonLabel}>Submit Your Project</span></Link>
+              )}
             </div>
           </div>
         </section>

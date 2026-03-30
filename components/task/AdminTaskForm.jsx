@@ -3,7 +3,11 @@
 import { useMemo, useState, useTransition } from "react";
 import { toast } from "sonner";
 import styles from "@/css/task/AdminTaskForm.module.css";
-import { getScheduleBounds, getDateInputValue } from "@/utils/taskSchedule.util";
+import {
+  getScheduleBounds,
+  getDateInputValue,
+  getMinimumSubmissionDeadlineDate,
+} from "@/utils/taskSchedule.util";
 
 const DEFAULT_REVIEW = [
   { label: "Folder Structure", maxScore: 5 },
@@ -21,13 +25,34 @@ export default function AdminTaskForm({ task = null, onSaved, onCancelEdit }) {
   const [form, setForm] = useState(() => createInitialForm(task, bounds));
   const [isSubmitting, startSubmitTransition] = useTransition();
   const isEditing = Boolean(task?._id);
+  const minSubmissionDeadlineValue = useMemo(
+    () => getDateInputValue(getMinimumSubmissionDeadlineDate(form.startDate || bounds.minDateValue)),
+    [bounds.minDateValue, form.startDate]
+  );
 
   function updateField(field, value) {
-    setForm((current) => ({ ...current, [field]: value }));
+    setForm((current) => {
+      if (field === "startDate") {
+        const nextMinDeadlineValue = getDateInputValue(
+          getMinimumSubmissionDeadlineDate(value || bounds.minDateValue)
+        );
+
+        return {
+          ...current,
+          startDate: value,
+          submissionDeadline:
+            current.submissionDeadline && current.submissionDeadline >= nextMinDeadlineValue
+              ? current.submissionDeadline
+              : nextMinDeadlineValue,
+        };
+      }
+
+      return { ...current, [field]: value };
+    });
   }
 
   function resetForm() {
-    setForm(createInitialForm(null, bounds));
+    setForm(createInitialForm(task, bounds));
   }
 
   function handleSubmit(event) {
@@ -47,6 +72,7 @@ export default function AdminTaskForm({ task = null, onSaved, onCancelEdit }) {
             description_md: form.description_md,
             difficulty: form.difficulty,
             startDate: form.startDate,
+            submissionDeadline: form.submissionDeadline,
             tags: form.tags.split(",").map((tag) => tag.trim()).filter(Boolean),
             review: review.filter((item) => item.label.trim()),
           }),
@@ -71,17 +97,18 @@ export default function AdminTaskForm({ task = null, onSaved, onCancelEdit }) {
   return (
     <section className={styles.section}>
       <div className={styles.formShell}>
-        <div className={styles.formHeader}>
-          <div>
-            <span className={styles.eyebrow}>{isEditing ? "Edit Task" : "Create Task"}</span>
-            <h2 className={styles.title}>{isEditing ? "Refine an existing task" : "Publish a new review brief"}</h2>
+          <div className={styles.formHeader}>
+            <div>
+              <span className={styles.eyebrow}>{isEditing ? "Edit Task" : "Create Task"}</span>
+              <h2 className={styles.title}>{isEditing ? "Refine an existing task" : "Publish a new review brief"}</h2>
+              {isEditing ? <p className={styles.editingCopy}>Currently editing: {task.title}</p> : null}
+            </div>
+            {isEditing ? (
+              <button type="button" className={styles.ghostButton} onClick={onCancelEdit}>
+                Cancel Edit
+              </button>
+            ) : null}
           </div>
-          {isEditing ? (
-            <button type="button" className={styles.ghostButton} onClick={onCancelEdit}>
-              New Task Instead
-            </button>
-          ) : null}
-        </div>
 
         <form className={styles.form} onSubmit={handleSubmit}>
           <div className={styles.grid}>
@@ -135,6 +162,19 @@ export default function AdminTaskForm({ task = null, onSaved, onCancelEdit }) {
             </label>
           </div>
 
+          <div className={styles.grid}>
+            <label className={styles.field}>
+              <span>Submission Deadline</span>
+              <input
+                type="date"
+                min={minSubmissionDeadlineValue}
+                value={form.submissionDeadline}
+                onChange={(event) => updateField("submissionDeadline", event.target.value)}
+                required
+              />
+            </label>
+          </div>
+
           <label className={styles.field}>
             <span>Task Description (Markdown)</span>
             <textarea
@@ -183,7 +223,7 @@ export default function AdminTaskForm({ task = null, onSaved, onCancelEdit }) {
               {isSubmitting ? (isEditing ? "Updating Task..." : "Publishing Task...") : (isEditing ? "Save Changes" : "Publish Task")}
             </button>
             <button type="button" className={styles.secondaryButton} onClick={resetForm} disabled={isSubmitting}>
-              Reset Form
+              {isEditing ? "Reset Changes" : "Reset Form"}
             </button>
           </div>
         </form>
@@ -193,12 +233,20 @@ export default function AdminTaskForm({ task = null, onSaved, onCancelEdit }) {
 }
 
 function createInitialForm(task, bounds) {
+  const startDate = getBoundedStartDate(task?.startDate, bounds);
+  const minimumDeadlineValue = getDateInputValue(getMinimumSubmissionDeadlineDate(startDate || bounds.minDateValue));
+  const existingDeadlineValue = task?.submissionDeadline ? getDateInputValue(task.submissionDeadline) : "";
+
   return {
     title: task?.title || "",
     description_md: task?.description_md || "",
     difficulty: task?.difficulty || DIFFICULTY_OPTIONS[0],
     tags: Array.isArray(task?.tags) ? task.tags.join(", ") : "",
-    startDate: getBoundedStartDate(task?.startDate, bounds),
+    startDate,
+    submissionDeadline:
+      existingDeadlineValue && existingDeadlineValue >= minimumDeadlineValue
+        ? existingDeadlineValue
+        : minimumDeadlineValue,
   };
 }
 
@@ -229,6 +277,7 @@ function serializeClientTask(task = {}) {
     tags: Array.isArray(task.tags) ? task.tags : [],
     review: Array.isArray(task.review) ? task.review : DEFAULT_REVIEW,
     startDate: task.startDate ? new Date(task.startDate).toISOString() : null,
+    submissionDeadline: task.submissionDeadline ? new Date(task.submissionDeadline).toISOString() : null,
     isScheduled: task.startDate ? new Date(task.startDate) > new Date() : false,
     createdAt: task.createdAt ? new Date(task.createdAt).toISOString() : new Date().toISOString(),
   };

@@ -47,6 +47,28 @@
   overflow: hidden;
 }
 
+.deadlineCard {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 0.85rem 1rem;
+  border-radius: 1rem;
+  background: rgba(240, 111, 61, 0.08);
+  border: 1px solid rgba(240, 111, 61, 0.16);
+}
+
+.deadlineLabel {
+  color: rgba(255, 244, 236, 0.68);
+  font-size: 0.9rem;
+}
+
+.deadlineValue {
+  color: #fff4ec;
+  font-family: neue;
+  font-size: 1rem;
+}
+
 .tags {
   display: flex;
   flex-wrap: wrap;
@@ -180,6 +202,11 @@
     line-height: 1.62;
   }
 
+  .deadlineLabel,
+  .deadlineValue {
+    font-size: 0.9rem;
+  }
+
   .tags {
     gap: 0.5rem;
   }
@@ -245,6 +272,15 @@
   .description {
     font-size: 0.88rem;
     line-height: 1.52;
+  }
+
+  .deadlineCard {
+    padding: 0.78rem 0.85rem;
+  }
+
+  .deadlineLabel,
+  .deadlineValue {
+    font-size: 0.82rem;
   }
 
   .tag {

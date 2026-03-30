@@ -4,6 +4,13 @@ import { getMarkdownPreview } from "@/utils/markdown.util";
 
 export default function TaskCard({ task, index }) {
   const preview = getMarkdownPreview(task.description_md, 210);
+  const deadlineLabel = task.submissionDeadline
+    ? new Date(task.submissionDeadline).toLocaleDateString("en-IN", {
+        day: "2-digit",
+        month: "short",
+        year: "numeric",
+      })
+    : null;
 
   return (
     <article className={styles.card}>
@@ -14,6 +21,12 @@ export default function TaskCard({ task, index }) {
 
       <h3 className={styles.title}>{task.title}</h3>
       <p className={styles.description}>{preview}</p>
+      {deadlineLabel ? (
+        <div className={styles.deadlineCard}>
+          <span className={styles.deadlineLabel}>Submission deadline</span>
+          <strong className={styles.deadlineValue}>{deadlineLabel}</strong>
+        </div>
+      ) : null}
 
       <div className={styles.tags}>
         {(task.tags || []).map((tag) => (

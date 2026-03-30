@@ -56,6 +56,11 @@ export default function HomeLeaderboard({ leaderboard = [] }) {
         <p className={styles.leaderboardCopy}>
           Ranked by total peer activity across submissions, reviews, and community support.
         </p>
+        <div className={styles.leaderboardCtas}>
+          <Link href="/how" className={styles.leaderboardGuideLink}>
+            How Points Work
+          </Link>
+        </div>
       </div>
 
       <div className={styles.leaderboardGrid}>
@@ -113,9 +118,14 @@ export default function HomeLeaderboard({ leaderboard = [] }) {
             </>
           ) : null}
 
-          <Link href="/leaderboard" className={styles.fullLeaderboardLink}>
-            See Full Leaderboard
-          </Link>
+          <div className={styles.leaderboardFooterLinks}>
+            <Link href="/leaderboard" className={styles.fullLeaderboardLink}>
+              See Full Leaderboard
+            </Link>
+            <Link href="/how" className={styles.fullLeaderboardLink}>
+              Scoring Guide
+            </Link>
+          </div>
         </div>
       </div>
     </section>

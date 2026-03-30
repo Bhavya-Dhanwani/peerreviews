@@ -1,7 +1,10 @@
 import Submission from "@/models/submission.model";
+import Task from "@/models/task.model";
 import ExpressError from "@/utils/ExpressError.util";
 import decodeJWT from "@/utils/decodeJWT.util";
-import { emitTaskCommentCreated } from "@/lib/socket.server";
+import { emitTaskCommentCreated, emitTaskSubmissionCreated, emitTaskSubmissionLiked } from "@/lib/socket.server";
+import { serializeSubmission } from "@/utils/discussionData.util";
+import { isSubmissionClosed, isTaskScheduled } from "@/utils/taskSchedule.util";
 
 function formatComment(comment = {}) {
   return {
@@ -30,6 +33,20 @@ export async function createSubmission(req) {
     throw new ExpressError("Task ID, project link, and repository link are required.", 400);
   }
 
+  const task = await Task.findById(taskId).lean();
+
+  if (!task) {
+    throw new ExpressError("Task not found.", 404);
+  }
+
+  if (isTaskScheduled(task) && currentUser.role !== "admin") {
+    throw new ExpressError("This task is not open for submissions yet.", 400);
+  }
+
+  if (isSubmissionClosed(task) && currentUser.role !== "admin") {
+    throw new ExpressError("Submission deadline has passed for this task.", 400);
+  }
+
   const newSubmission = await Submission.create({
     taskId,
     userId: currentUser.id,
@@ -39,6 +56,12 @@ export async function createSubmission(req) {
     likedBy: [],
     reviews: [],
     comments: [],
+  });
+
+  await newSubmission.populate("userId", "name avatar");
+
+  emitTaskSubmissionCreated(String(newSubmission.taskId || taskId), {
+    submission: serializeSubmission(newSubmission.toObject(), currentUser),
   });
 
   return {
@@ -110,6 +133,13 @@ export async function toggleLike(req, { params }) {
   }
 
   await submission.save();
+
+  emitTaskSubmissionLiked(String(submission.taskId || ""), {
+    submissionId: String(submission._id || id),
+    userId: userIdStr,
+    liked: !alreadyLiked,
+    likesCount: submission.likedBy.length,
+  });
 
   return {
     message: alreadyLiked ? "Like removed." : "Submission liked.",

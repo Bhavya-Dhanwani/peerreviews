@@ -285,6 +285,30 @@
   line-height: 1.7;
 }
 
+.leaderboardCtas,
+.leaderboardFooterLinks {
+  display: flex;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+}
+
+.leaderboardCtas {
+  margin-top: 1rem;
+}
+
+.leaderboardGuideLink {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 3rem;
+  padding: 0.9rem 1.2rem;
+  border-radius: 1rem;
+  background: rgba(227, 89, 39, 0.12);
+  border: 1px solid rgba(227, 89, 39, 0.22);
+  color: #fff4ec;
+  text-decoration: none;
+}
+
 .leaderboardGrid {
   display: grid;
   gap: 1rem;

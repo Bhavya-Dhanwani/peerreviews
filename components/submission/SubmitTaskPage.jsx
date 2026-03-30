@@ -3,6 +3,14 @@ import SubmitTaskForm from "@/components/submission/SubmitTaskForm";
 import styles from "@/css/submission/SubmitTaskPage.module.css";
 
 export default function SubmitTaskPage({ task }) {
+  const deadlineLabel = task.submissionDeadline
+    ? new Date(task.submissionDeadline).toLocaleDateString("en-IN", {
+        day: "2-digit",
+        month: "short",
+        year: "numeric",
+      })
+    : null;
+
   return (
     <main className={styles.page}>
       <section className={styles.hero}>
@@ -22,6 +30,11 @@ export default function SubmitTaskPage({ task }) {
           <p className={styles.subtitle}>
             Share your live link, repository, and notes so peers can review your solution in context.
           </p>
+          {deadlineLabel ? (
+            <p className={styles.subtitle}>
+              Submission deadline: <strong>{deadlineLabel}</strong>
+            </p>
+          ) : null}
           <div className={styles.actions}>
             <Link href={`/task/${task._id}`} className={styles.secondaryAction} data-text="Back To Task"><span className={styles.buttonLabel}>Back To Task</span></Link>
             <Link href={`/task/${task._id}/submissions`} className={styles.secondaryAction} data-text="Submissions"><span className={styles.buttonLabel}>Submissions</span></Link>

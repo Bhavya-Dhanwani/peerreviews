@@ -68,6 +68,7 @@ export function serializeTask(task = {}) {
         }))
       : [],
     startDate: task.startDate ? new Date(task.startDate).toISOString() : null,
+    submissionDeadline: task.submissionDeadline ? new Date(task.submissionDeadline).toISOString() : null,
     isScheduled: isTaskScheduled(task),
     createdAt: task.createdAt ? new Date(task.createdAt).toISOString() : null,
   };
@@ -89,6 +90,9 @@ export function serializeSubmission(submission = {}, currentUser = null) {
         ? {
             _id: String(submission.taskId._id || ""),
             title: submission.taskId.title || "",
+            submissionDeadline: submission.taskId.submissionDeadline
+              ? new Date(submission.taskId.submissionDeadline).toISOString()
+              : null,
           }
         : null,
     userId:
