@@ -9,9 +9,11 @@ export const metadata = {
   description: "Log in to access Kodex Peer Reviews.",
 };
 
-export default async function LoginPage() {
+export default async function LoginPage({ searchParams }) {
   const session = await getCurrentSession();
   const pendingVerification = await getCurrentPendingVerification();
+  const resolvedSearchParams = await searchParams;
+  const oauthError = String(resolvedSearchParams?.error || "").trim();
 
   if (session) {
     redirect("/");
@@ -27,7 +29,7 @@ export default async function LoginPage() {
       title="Log in to continue"
       description="Every page in Kodex Peer Reviews is protected, so start by logging in."
     >
-      <LoginForm />
+      <LoginForm oauthError={oauthError} />
     </AuthShell>
   );
 }
