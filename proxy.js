@@ -46,10 +46,6 @@ export function proxy(request) {
     return NextResponse.redirect(loginUrl);
   }
 
-  if (isAuthenticated && isPublicPage) {
-    return NextResponse.redirect(new URL("/", request.url));
-  }
-
   return NextResponse.next();
 }
 

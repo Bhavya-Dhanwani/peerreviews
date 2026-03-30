@@ -14,7 +14,7 @@ export default async function MyTasksRoute() {
   await connectDB();
 
   const submissions = await Submission.find({ userId: session.user.id })
-    .populate("taskId", "title difficulty tags")
+    .populate("taskId", "title difficulty tags submissionDeadline")
     .populate("userId", "name avatar")
     .populate("reviews.reviewerId", "name avatar")
     .populate("comments.commenterId", "name avatar")

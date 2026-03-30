@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useMemo, useRef, useState } from "react";
 import { toast } from "sonner";
 import AdminTaskForm from "@/components/task/AdminTaskForm";
 import AdminTaskList from "@/components/task/AdminTaskList";
@@ -9,6 +9,7 @@ import styles from "@/css/task/AdminTaskManager.module.css";
 export default function AdminTaskManager({ initialTasks = [] }) {
   const [tasks, setTasks] = useState(initialTasks);
   const [editingTaskId, setEditingTaskId] = useState(null);
+  const formColumnRef = useRef(null);
 
   const editingTask = useMemo(
     () => tasks.find((task) => task._id === editingTaskId) || null,
@@ -26,7 +27,7 @@ export default function AdminTaskManager({ initialTasks = [] }) {
       return [savedTask, ...current].sort(sortTasks);
     });
 
-    setEditingTaskId(savedTask._id);
+    setEditingTaskId(null);
     toast.success(mode === "edit" ? "Task updated." : "Task created.");
   }
 
@@ -62,9 +63,17 @@ export default function AdminTaskManager({ initialTasks = [] }) {
     }
   }
 
+  function handleEditTask(taskId) {
+    setEditingTaskId(taskId);
+    formColumnRef.current?.scrollIntoView({
+      behavior: "smooth",
+      block: "start",
+    });
+  }
+
   return (
     <section className={styles.section}>
-      <div className={styles.column}>
+      <div className={styles.column} ref={formColumnRef}>
         <AdminTaskForm
           key={editingTask?._id || "create-task"}
           task={editingTask}
@@ -77,7 +86,7 @@ export default function AdminTaskManager({ initialTasks = [] }) {
         <AdminTaskList
           tasks={tasks}
           editingTaskId={editingTaskId}
-          onEditTask={setEditingTaskId}
+          onEditTask={handleEditTask}
           onDeleteTask={handleDelete}
         />
       </div>

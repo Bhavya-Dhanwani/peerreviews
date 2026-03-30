@@ -93,7 +93,8 @@
 
 .primaryAction,
 .secondaryAction,
-.disabledAction {
+.disabledAction,
+.closedAction {
   position: relative;
   display: inline-flex;
   align-items: center;
@@ -120,6 +121,13 @@
   border: 1px solid rgba(88, 208, 128, 0.22);
   background: rgba(88, 208, 128, 0.12);
   color: #dfffe8;
+  cursor: default;
+}
+
+.closedAction {
+  border: 1px solid rgba(240, 111, 61, 0.24);
+  background: rgba(240, 111, 61, 0.12);
+  color: #ffe2d7;
   cursor: default;
 }
 

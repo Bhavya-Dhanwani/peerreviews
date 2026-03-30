@@ -11,6 +11,7 @@ import {
   validateSignupPayload,
   validateVerifyOtpPayload,
 } from "@/utils/auth.util";
+import { getCredibilityReport } from "@/utils/leaderboard.util";
 import { createSessionForUser } from "@/utils/session.util";
 import {
   getPendingVerificationByUserId,
@@ -427,9 +428,17 @@ export async function resetPasswordController(payload) {
 }
 
 export async function getSessionController(user) {
+  const dbUser = await User.findById(user.id)
+    .select("name email avatar provider role isVerified createdAt reviewStats credibilityScore socialProfiles connectedProviders abuseSignals")
+    .lean();
+
+  const publicUser = dbUser ? getPublicUser(dbUser) : user;
+  const credibility = dbUser ? getCredibilityReport(dbUser) : null;
+
   return {
     data: {
-      user,
+      user: publicUser,
+      credibility,
     },
   };
 }

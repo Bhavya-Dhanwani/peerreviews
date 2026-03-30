@@ -53,9 +53,14 @@ export default function LeaderboardPage({ leaderboard = [], currentUser = null }
               A full view of the strongest contributors across submissions, reviews, and community engagement.
             </p>
           </div>
-          <Link href="/" className={styles.homeLink}>
-            Back Home
-          </Link>
+          <div className={styles.headerLinks}>
+            <Link href="/how" className={styles.homeLink}>
+              How Points Work
+            </Link>
+            <Link href="/" className={styles.homeLink}>
+              Back Home
+            </Link>
+          </div>
         </div>
 
         {currentUserEntry ? (

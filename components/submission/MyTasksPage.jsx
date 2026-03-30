@@ -6,6 +6,10 @@ function formatDate(value) {
   return value ? formatIstDate(value) : "Unknown date";
 }
 
+function formatDeadline(value) {
+  return value ? formatIstDate(value) : "No deadline";
+}
+
 export default function MyTasksPage({ currentUser, submissions = [] }) {
   return (
     <main className={styles.page}>
@@ -41,6 +45,7 @@ export default function MyTasksPage({ currentUser, submissions = [] }) {
                 <div>
                   <h2 className={styles.cardTitle}>{submission.task?.title || "Task"}</h2>
                   <p className={styles.cardDate}>{formatDate(submission.createdAt)}</p>
+                  <p className={styles.cardDeadline}>Submission deadline: {formatDeadline(submission.task?.submissionDeadline)}</p>
                 </div>
                 <div className={styles.statGroup}>
                   <span className={styles.statChip}>{submission.reviewCount || 0} reviews</span>

@@ -1,5 +1,5 @@
 import connectDB from "@/config/db.config";
-import decodeJWT from "@/utils/decodeJWT.util";
+import { requireUserSession } from "@/utils/session.util";
 import { getLeaderboard } from "@/utils/leaderboard.util";
 import LeaderboardPage from "@/components/home/LeaderboardPage";
 
@@ -9,7 +9,8 @@ export const metadata = {
 };
 
 export default async function LeaderboardRoute() {
-  const currentUser = await decodeJWT();
+  const session = await requireUserSession();
+  const currentUser = session.user;
   await connectDB();
   const leaderboard = await getLeaderboard();
 

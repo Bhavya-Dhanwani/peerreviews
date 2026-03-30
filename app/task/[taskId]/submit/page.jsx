@@ -4,7 +4,7 @@ import Task from "@/models/task.model";
 import SubmitTaskPage from "@/components/submission/SubmitTaskPage";
 import decodeJWT from "@/utils/decodeJWT.util";
 import { serializeTask } from "@/utils/discussionData.util";
-import { isTaskScheduled } from "@/utils/taskSchedule.util";
+import { isSubmissionClosed, isTaskScheduled } from "@/utils/taskSchedule.util";
 
 export default async function TaskSubmitPage({ params }) {
   const currentUser = await decodeJWT();
@@ -17,6 +17,10 @@ export default async function TaskSubmitPage({ params }) {
   }
 
   if (isTaskScheduled(task) && currentUser?.role !== "admin") {
+    notFound();
+  }
+
+  if (isSubmissionClosed(task) && currentUser?.role !== "admin") {
     notFound();
   }
 

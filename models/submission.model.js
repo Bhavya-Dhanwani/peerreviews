@@ -23,6 +23,18 @@ const reviewSchema = mongoose.Schema({
       score: Number,
     },
   ],
+  averageScore: {
+    type: Number,
+    default: 0,
+  },
+  reviewerIpHash: {
+    type: String,
+    default: "",
+  },
+  suspicious: {
+    type: Boolean,
+    default: false,
+  },
   whatYouLiked: {
     type: String,
     default: "",
@@ -79,6 +91,36 @@ const submissionSchema = mongoose.Schema(
     ],
     reviews: [reviewSchema],
     comments: [commentSchema],
+    leaderboardStats: {
+      weightedRating: {
+        type: Number,
+        default: 0,
+      },
+      bayesianScore: {
+        type: Number,
+        default: 0,
+      },
+      finalScore: {
+        type: Number,
+        default: 0,
+      },
+      reviewCount: {
+        type: Number,
+        default: 0,
+      },
+      globalAverageRating: {
+        type: Number,
+        default: 0,
+      },
+      averageReviewsPerProject: {
+        type: Number,
+        default: 0,
+      },
+      updatedAt: {
+        type: Date,
+        default: null,
+      },
+    },
   },
   { timestamps: true }
 );

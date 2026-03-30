@@ -115,6 +115,11 @@
   color: rgba(255, 244, 236, 0.68);
 }
 
+.cardDeadline {
+  margin-top: 0.35rem;
+  color: #ffcfbb;
+}
+
 .statGroup {
   justify-content: flex-start;
 }

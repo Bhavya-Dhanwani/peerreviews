@@ -32,6 +32,12 @@
   font-size: 1.5rem;
 }
 
+.editingCopy {
+  margin-top: 0.45rem;
+  color: rgba(255, 244, 236, 0.64);
+  line-height: 1.5;
+}
+
 .form {
   display: grid;
   gap: 1rem;
