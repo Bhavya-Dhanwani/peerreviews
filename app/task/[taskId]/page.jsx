@@ -22,6 +22,14 @@ export default async function TaskPage({ params }) {
   }
 
   const submissionCount = await Submission.countDocuments({ taskId });
+  const hasSubmitted = currentUser?.id
+    ? Boolean(
+        await Submission.exists({
+          taskId,
+          userId: currentUser.id,
+        })
+      )
+    : false;
 
-  return <TaskDetailPage task={serializeTask(task)} submissionCount={submissionCount} />;
+  return <TaskDetailPage task={serializeTask(task)} submissionCount={submissionCount} hasSubmitted={hasSubmitted} />;
 }

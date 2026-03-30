@@ -39,7 +39,7 @@ export default async function TaskSubmissionsRoute({ params }) {
     <TaskSubmissionsPage
       currentUser={session.user}
       task={serializeTask(task)}
-      submissions={submissions.map((submission) => serializeSubmission(submission, session.user))}
+      initialSubmissions={submissions.map((submission) => serializeSubmission(submission, session.user))}
     />
   );
 }

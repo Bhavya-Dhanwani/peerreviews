@@ -1,4 +1,4 @@
-import TaskCard from "@/components/home/TaskCard";
+﻿import TaskCard from "@/components/home/TaskCard";
 import styles from "@/css/home/TaskGrid.module.css";
 
 export default function HomeTaskGrid({ tasks = [] }) {
@@ -9,9 +9,6 @@ export default function HomeTaskGrid({ tasks = [] }) {
           <span className={styles.eyebrow}>Live Tasks</span>
           <h2 className={styles.title}>Choose a task and enter its discussion thread</h2>
         </div>
-        <p className={styles.subtitle}>
-          The homepage stays focused on tasks only. Submission and review flows now live on their own pages.
-        </p>
       </div>
 
       {tasks.length ? (

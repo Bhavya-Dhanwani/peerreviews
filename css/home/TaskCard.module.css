@@ -155,9 +155,142 @@
 }
 
 @media screen and (max-width: 780px) {
+  .card {
+    gap: 0.9rem;
+    padding: 1.15rem;
+    border-radius: 1.5rem;
+  }
+
+  .index {
+    font-size: 1.15rem;
+  }
+
+  .difficulty {
+    padding: 0.5rem 0.78rem;
+    font-size: 0.88rem;
+  }
+
+  .title {
+    font-size: 1.42rem;
+    line-height: 1.15;
+  }
+
+  .description {
+    font-size: 0.94rem;
+    line-height: 1.62;
+  }
+
+  .tags {
+    gap: 0.5rem;
+  }
+
+  .tag {
+    padding: 0.45rem 0.7rem;
+    font-size: 0.92rem;
+  }
+
   .actions,
   .criteria {
     flex-direction: column;
     align-items: stretch;
+  }
+
+  .criterion {
+    gap: 0.3rem;
+    padding-top: 0.8rem;
+  }
+
+  .criterion span {
+    font-size: 0.8rem;
+  }
+
+  .criterion strong {
+    font-size: 1rem;
+  }
+
+  .primaryAction,
+  .secondaryAction {
+    padding: 0.82rem 0.95rem;
+    border-radius: 0.92rem;
+    font-size: 0.95rem;
+  }
+}
+
+@media screen and (max-width: 420px) {
+  .card {
+    gap: 0.82rem;
+    padding: 1rem;
+    border-radius: 1.35rem;
+  }
+
+  .cardTop,
+  .actions,
+  .criteria {
+    gap: 0.65rem;
+  }
+
+  .index {
+    font-size: 1rem;
+  }
+
+  .difficulty {
+    padding: 0.42rem 0.68rem;
+    font-size: 0.8rem;
+  }
+
+  .title {
+    font-size: 1.18rem;
+  }
+
+  .description {
+    font-size: 0.88rem;
+    line-height: 1.52;
+  }
+
+  .tag {
+    padding: 0.42rem 0.62rem;
+    font-size: 0.84rem;
+  }
+
+  .criterion {
+    padding-top: 0.72rem;
+  }
+
+  .criterion span {
+    font-size: 0.76rem;
+  }
+
+  .criterion strong {
+    font-size: 0.94rem;
+  }
+
+  .primaryAction,
+  .secondaryAction {
+    padding: 0.76rem 0.85rem;
+    font-size: 0.9rem;
+  }
+}
+
+@media screen and (max-width: 320px) {
+  .card {
+    padding: 0.88rem;
+  }
+
+  .title {
+    font-size: 1.04rem;
+  }
+
+  .description {
+    font-size: 0.82rem;
+  }
+
+  .tag {
+    font-size: 0.78rem;
+  }
+
+  .primaryAction,
+  .secondaryAction {
+    padding: 0.72rem 0.8rem;
+    font-size: 0.86rem;
   }
 }

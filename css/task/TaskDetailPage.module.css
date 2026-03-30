@@ -92,7 +92,8 @@
 }
 
 .primaryAction,
-.secondaryAction {
+.secondaryAction,
+.disabledAction {
   position: relative;
   display: inline-flex;
   align-items: center;
@@ -113,6 +114,13 @@
   border: 1px solid rgba(255, 255, 255, 0.08);
   background: rgba(255, 255, 255, 0.04);
   color: rgba(255, 244, 236, 0.88);
+}
+
+.disabledAction {
+  border: 1px solid rgba(88, 208, 128, 0.22);
+  background: rgba(88, 208, 128, 0.12);
+  color: #dfffe8;
+  cursor: default;
 }
 
 .buttonLabel,
