@@ -5,7 +5,7 @@ import { registerSocketServer } from "./lib/socket.server.js";
 
 const isProd = process.argv.includes("--prod") || process.env.NODE_ENV === "production";
 const port = Number(process.env.PORT || 3000);
-const hostname = process.env.HOSTNAME || "0.0.0.0";
+const hostname = process.env.HOSTNAME || "localhost";
 
 const app = next({ dev: !isProd, hostname, port });
 const handle = app.getRequestHandler();
@@ -40,3 +40,4 @@ app.prepare().then(() => {
     console.log(`> Ready on http://${hostname}:${port}`);
   });
 });
+
