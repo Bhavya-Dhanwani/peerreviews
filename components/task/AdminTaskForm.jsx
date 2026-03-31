@@ -41,8 +41,10 @@ export default function AdminTaskForm({ task = null, onSaved, onCancelEdit }) {
           ...current,
           startDate: value,
           submissionDeadline:
-            current.submissionDeadline && current.submissionDeadline >= nextMinDeadlineValue
-              ? current.submissionDeadline
+            current.submissionDeadline
+              ? current.submissionDeadline >= nextMinDeadlineValue
+                ? current.submissionDeadline
+                : nextMinDeadlineValue
               : nextMinDeadlineValue,
         };
       }
@@ -243,10 +245,7 @@ function createInitialForm(task, bounds) {
     difficulty: task?.difficulty || DIFFICULTY_OPTIONS[0],
     tags: Array.isArray(task?.tags) ? task.tags.join(", ") : "",
     startDate,
-    submissionDeadline:
-      existingDeadlineValue && existingDeadlineValue >= minimumDeadlineValue
-        ? existingDeadlineValue
-        : minimumDeadlineValue,
+    submissionDeadline: existingDeadlineValue || minimumDeadlineValue,
   };
 }
 
