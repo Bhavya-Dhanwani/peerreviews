@@ -94,56 +94,76 @@ export default function HomeHero({ currentUser = null }) {
   );
 
   return (
-    <section className={styles.section}>
-      <div className={styles.backdrop} />
-      <div className={styles.navbar}>
-        <div className={styles.brandZone}>
-          <Link href="/" className={styles.brand}>
-            <div className={styles.brandMark}>
-              <Image
-                src={sheryiansLogo}
-                alt="Sheryians Coding School"
-                className={styles.brandLogo}
-                priority
-              />
-            </div>
-            <div className={styles.brandCopy}>
-              <span className={styles.brandTitle}>Kodex Peer Reviews</span>
-              <span className={styles.brandSubtitle}>Peer project discussions and structured reviews</span>
-            </div>
-          </Link>
-        </div>
-
-        <button
-          type="button"
-          className={menuOpen ? `${styles.menuToggle} ${styles.menuToggleActive}` : styles.menuToggle}
-          onClick={() => setMenuOpen((current) => !current)}
-          aria-label={menuOpen ? "Close navigation menu" : "Open navigation menu"}
-          aria-expanded={menuOpen}
-        >
-          <span />
-          <span />
-          <span />
-        </button>
-
-        <nav className={styles.desktopNav}>{navItems}</nav>
-
-        <div className={styles.desktopUser}>{userActions}</div>
-
-        <div className={menuOpen ? `${styles.mobileOverlay} ${styles.mobileOverlayVisible}` : styles.mobileOverlay} onClick={() => setMenuOpen(false)} />
-
-        <div className={menuOpen ? `${styles.mobileDrawer} ${styles.mobileDrawerVisible}` : styles.mobileDrawer}>
-          <div className={styles.mobileDrawerHeader}>
-            <span className={styles.mobileDrawerTitle}>Menu</span>
+    <>
+      <section className={styles.section}>
+        <div className={styles.backdrop} />
+        <div className={styles.navbar}>
+          <div className={styles.brandZone}>
+            <Link href="/" className={styles.brand}>
+              <div className={styles.brandMark}>
+                <Image
+                  src={sheryiansLogo}
+                  alt="Sheryians Coding School"
+                  className={styles.brandLogo}
+                  priority
+                />
+              </div>
+              <div className={styles.brandCopy}>
+                <span className={styles.brandTitle}>Kodex Peer Reviews</span>
+                <span className={styles.brandSubtitle}>Peer project discussions and structured reviews</span>
+              </div>
+            </Link>
           </div>
 
-          <nav className={styles.navLinks}>
-            {navItems}
-          </nav>
+          <button
+            type="button"
+            className={menuOpen ? `${styles.menuToggle} ${styles.menuToggleActive}` : styles.menuToggle}
+            onClick={() => setMenuOpen((current) => !current)}
+            aria-label={menuOpen ? "Close navigation menu" : "Open navigation menu"}
+            aria-expanded={menuOpen}
+            aria-controls="mobile-navigation-drawer"
+          >
+            <span />
+            <span />
+            <span />
+          </button>
 
-          <div className={styles.userZone}>{userActions}</div>
+          <nav className={styles.desktopNav}>{navItems}</nav>
+
+          <div className={styles.desktopUser}>{userActions}</div>
         </div>
+      </section>
+
+      <div
+        className={menuOpen ? `${styles.mobileOverlay} ${styles.mobileOverlayVisible}` : styles.mobileOverlay}
+        onClick={() => setMenuOpen(false)}
+        aria-hidden={!menuOpen}
+      />
+
+      <div
+        id="mobile-navigation-drawer"
+        className={menuOpen ? `${styles.mobileDrawer} ${styles.mobileDrawerVisible}` : styles.mobileDrawer}
+        aria-hidden={!menuOpen}
+      >
+        <div className={styles.mobileDrawerHeader}>
+          <span className={styles.mobileDrawerTitle}>Menu</span>
+          <button
+            type="button"
+            className={styles.drawerClose}
+            onClick={() => setMenuOpen(false)}
+            aria-label="Close navigation menu"
+          >
+            <span />
+            <span />
+          </button>
+        </div>
+
+        <nav className={styles.navLinks}>
+          {navItems}
+        </nav>
+
+        <div className={styles.userZone}>{userActions}</div>
       </div>
-    </section>
+    </>
   );
 }

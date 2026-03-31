@@ -73,7 +73,8 @@
 .menuToggle,
 .mobileOverlay,
 .mobileDrawer,
-.mobileDrawerHeader {
+.mobileDrawerHeader,
+.drawerClose {
   display: none;
 }
 
@@ -795,9 +796,8 @@
   .mobileDrawerHeader {
     display: flex;
     align-items: center;
-    justify-content: flex-start;
+    justify-content: space-between;
     min-height: 3rem;
-    padding-right: 3.4rem;
     border-bottom: 1px solid rgba(255, 255, 255, 0.06);
   }
 
@@ -806,6 +806,36 @@
     font-family: neue;
     font-size: 0.98rem;
     letter-spacing: 0.02em;
+  }
+
+  .drawerClose {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 2.75rem;
+    height: 2.75rem;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.04);
+    cursor: pointer;
+    flex: 0 0 auto;
+  }
+
+  .drawerClose span {
+    position: absolute;
+    width: 16px;
+    height: 2px;
+    border-radius: 999px;
+    background: #fff4ec;
+  }
+
+  .drawerClose span:first-child {
+    transform: rotate(45deg);
+  }
+
+  .drawerClose span:last-child {
+    transform: rotate(-45deg);
   }
 
   .navLinks,
@@ -1061,6 +1091,11 @@
 
   .mobileDrawerTitle {
     font-size: 0.92rem;
+  }
+
+  .drawerClose {
+    width: 2.45rem;
+    height: 2.45rem;
   }
 
   .navLinks,
