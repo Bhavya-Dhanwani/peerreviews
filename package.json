@@ -4,9 +4,9 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "dev": "node server.mjs",
-    "build": "next build",
-    "start": "node server.mjs --prod",
+    "dev": "node init && node server.mjs",
+    "build": "node init && next build",
+    "start": "node init && node server.mjs --prod",
     "lint": "eslint"
   },
   "dependencies": {
