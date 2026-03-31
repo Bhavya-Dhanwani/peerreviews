@@ -207,10 +207,42 @@
   }
 
   .tableHeader {
-    display: none;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 4rem 5rem;
+    gap: 0.7rem;
+    padding: 0.9rem 1rem;
+    font-size: 0.78rem;
   }
 
   .row {
-    grid-template-columns: 1fr;
+    grid-template-columns: minmax(0, 1fr) 4rem 5rem;
+    gap: 0.7rem;
+    padding: 0.9rem 1rem;
+  }
+
+  .nameCell,
+  .nameCopy {
+    min-width: 0;
+  }
+
+  .nameCopy strong,
+  .nameCopy span {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .nameCopy strong {
+    font-size: 0.92rem;
+  }
+
+  .nameCopy span,
+  .rankCell {
+    font-size: 0.76rem;
+  }
+
+  .pointsCell {
+    font-size: 1rem;
+    white-space: nowrap;
   }
 }
