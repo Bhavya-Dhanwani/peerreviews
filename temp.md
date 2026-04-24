@@ -1,5 +1,4 @@
 # 🧠 React Project Assignment: Smart Todo App
-
 ## 📌 Objective
 
 Build a fully functional Smart Todo Application using React that goes beyond a basic todo list by including reminders, categorization, search optimization, and user analytics.
